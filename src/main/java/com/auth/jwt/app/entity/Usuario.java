@@ -35,6 +35,8 @@ public class Usuario implements Serializable {
 
     private boolean activo;
 
+    private int failedLoginAttempts;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "usuarios_roles",
@@ -95,5 +97,23 @@ public class Usuario implements Serializable {
 
     public void agregarRoleALista(Role role){
         this.roles.add(role);
+    }
+
+    public int getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
+
+    public void setFailedLoginAttempts(int failedLoginAttempts) {
+        this.failedLoginAttempts = failedLoginAttempts;
+    }
+
+    // Method to increment failed login attempts
+    public void incrementFailedLoginAttempts() {
+        this.failedLoginAttempts++;
+    }
+
+    // Method to reset failed login attempts
+    public void resetFailedLoginAttempts() {
+        this.failedLoginAttempts = 0;
     }
 } // fin de la clase entidad
