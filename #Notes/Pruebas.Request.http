@@ -1,0 +1,64 @@
+###
+POST http://localhost:8000/registrarse
+Content-Type: application/json
+
+{
+  "username": "admin_user",
+  "correo": "admin@example.com",
+  "password": "admin_pass"
+}
+
+<> 2024-06-19T144822.200.txt
+###
+POST http://localhost:8000/registrarse
+Content-Type: application/json
+
+{
+  "username": "regular_user",
+  "correo": "user@example.com",
+  "password": "user_pass"
+}
+
+<> 2024-06-19T144822-1.200.txt
+###
+POST http://localhost:8000/registrarse
+Content-Type: application/json
+
+{
+  "username": "guest_user",
+  "correo": "guest@example.com",
+  "password": "guest_pass"
+}
+
+<> 2024-06-19T144822-2.200.txt
+###
+POST http://localhost:8000/registrarse
+Content-Type: application/json
+
+{
+  "username": "mod_user",
+  "correo": "mod@example.com",
+  "password": "mod_pass"
+}
+
+<> 2024-06-19T144823.200.txt
+###
+POST http://localhost:8000/registrarse
+Content-Type: application/json
+
+{
+  "username": "manager_user",
+  "correo": "manager@example.com",
+  "password": "manager_pass"
+}
+
+<> 2024-06-19T144823-1.200.txt
+
+###
+POST http://localhost:8000/iniciar
+Content-Type: application/json
+
+{
+  "username": "regular_user",
+  "password": "user_pass"
+}

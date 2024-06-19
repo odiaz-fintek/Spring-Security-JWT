@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Esta clase representa a la tabla de la BD llamada <b>usuarios</b>
@@ -35,6 +36,9 @@ public class Usuario implements Serializable {
 
     private boolean activo;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Producto> productos;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "usuarios_roles",
@@ -42,6 +46,8 @@ public class Usuario implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "id_role")}
     )
     private List<Role> roles;
+
+
 
     /* ~ Metodos
     ==================================== */
