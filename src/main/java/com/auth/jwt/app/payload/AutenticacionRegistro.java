@@ -1,6 +1,9 @@
 package com.auth.jwt.app.payload;
 
+import com.auth.jwt.app.entity.Role;
+
 import java.io.Serializable;
+import java.util.List;
 
 // Ver si sirve o uso el de usuarios
 public class AutenticacionRegistro implements Serializable {
@@ -12,8 +15,7 @@ public class AutenticacionRegistro implements Serializable {
     private String password;
 
     /* ~ Metodos
-    ==================================== */
-    public AutenticacionRegistro(){}
+        ==================================== */
 
     public AutenticacionRegistro(String username, String email, String password) {
         this.username = username;
@@ -41,7 +43,4 @@ public class AutenticacionRegistro implements Serializable {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

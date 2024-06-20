@@ -1,8 +1,12 @@
 package com.auth.jwt.app.controller;
 
 import com.auth.jwt.app.entity.Producto;
+import com.auth.jwt.app.entity.Usuario;
 import com.auth.jwt.app.repository.ProductoRepository;
+import com.auth.jwt.app.service.IProductoService;
+import com.auth.jwt.app.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,34 +16,58 @@ import java.util.List;
 public class ProductoController {
 
     @Autowired
+    private IProductoService productoService;
+
+    @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
+    private IUsuarioService usuarioService;
 
     @GetMapping
     public List<Producto> getAllProductos() {
         return productoRepository.findAll();
     }
 
-    @GetMapping("/id}")
+    @GetMapping("/{id}")
     public Producto getProductoById(@PathVariable Long id) {
         return productoRepository.findById(id).orElse(null);
     }
 
-    @PostMapping("create/{id}")
+    @PostMapping("create")
     public Producto createProducto(@RequestBody Producto producto) {
         return productoRepository.save(producto);
     }
 
-    @PutMapping("update/{id}")
-    public Producto updateProducto(@PathVariable Long id, @RequestBody Producto productoDetails) {
-        Producto producto = productoRepository.findById(id).orElse(null);
-        if (producto != null) {
-            producto.setNombre(productoDetails.getNombre());
-            producto.setDescripcion(productoDetails.getDescripcion());
-            producto.setPrecio(productoDetails.getPrecio());
-            producto.setCantidad(productoDetails.getCantidad());
-            return productoRepository.save(producto);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateProducto(@PathVariable Long id, @RequestBody Producto productoDetalles) {
+        // Buscar el producto existente
+        Producto productoExistente = productoService.buscarProductoPorId(id);
+        if (productoExistente == null) {
+            return ResponseEntity.notFound().build();
         }
-        return null;
+
+        // Actualizar las propiedades del producto
+        productoExistente.setNombre(productoDetalles.getNombre());
+        productoExistente.setDescripcion(productoDetalles.getDescripcion());
+        productoExistente.setPrecio(productoDetalles.getPrecio());
+        productoExistente.setCantidad(productoDetalles.getCantidad());
+        productoExistente.setFechaCreacion(productoDetalles.getFechaCreacion());
+        productoExistente.setFechaActualizacion(productoDetalles.getFechaActualizacion());
+
+        // Asignar el ID del usuario
+        Integer usuarioId = productoDetalles.getUsuarioId();
+        Usuario usuario = usuarioService.buscarUsuarioPorId(usuarioId);
+        if (usuario != null) {
+            productoExistente.setUsuarioId(usuarioId);
+        } else {
+            return ResponseEntity.badRequest().body("Usuario no encontrado");
+        }
+
+        // Guardar el producto actualizado
+        productoService.guardarProducto(productoExistente);
+
+        return ResponseEntity.ok(productoExistente);
     }
 
     @DeleteMapping("delete/{id}")

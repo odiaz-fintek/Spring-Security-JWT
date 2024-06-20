@@ -3,6 +3,7 @@ package com.auth.jwt.app.controller;
 import com.auth.jwt.app.entity.Role;
 import com.auth.jwt.app.entity.Usuario;
 import com.auth.jwt.app.payload.AutenticacionLogin;
+import com.auth.jwt.app.payload.AutenticacionRegistro;
 import com.auth.jwt.app.payload.AutenticacionResponse;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
 import com.auth.jwt.app.security.utils.JwtUtil;
@@ -53,8 +54,16 @@ public class HomeController {
         usuario.setActivo(true);
         usuarioService.guardarUsuario(usuario);
 
-        return ResponseEntity.ok("Usuario registrado correctamente");
-    } // fin de la pagina de registro
+        // Crea el token de este usuario
+        final UserDetails userDetails = miUserDetailsService.loadUserByUsername(usuario.getUsername());
+        final String token = jwtUtil.creatToken(userDetails);
+
+        // Guarda el token en el usuario
+        usuario.setToken(token);
+        usuarioService.guardarUsuario(usuario);
+
+        return ResponseEntity.ok(new AutenticacionResponse(token));
+    }
 
     @PostMapping("/iniciar")
     public ResponseEntity<?> iniciarSesion(@RequestBody AutenticacionLogin autLogin) throws Exception{

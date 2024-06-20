@@ -11,7 +11,7 @@ services:
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: database_name
+      MYSQL_DATABASE: SprintOne
       MYSQL_USER: user_name
       MYSQL_PASSWORD: user_password
     ports:

@@ -37,7 +37,11 @@ public class Producto {
     @UpdateTimestamp
     private LocalDateTime fechaActualizacion;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
+    // Cambiar a Integer para guardar el ID del usuario
+    private Integer usuarioId;
+
+    // Quitar la relación ManyToOne con Usuario
+    // @ManyToOne()
+    // @JoinColumn(name = "id_usuario", nullable = false)
+    // private Usuario usuario;
 }

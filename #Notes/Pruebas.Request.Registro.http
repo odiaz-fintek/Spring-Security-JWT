@@ -3,9 +3,9 @@ POST http://localhost:8000/registrarse
 Content-Type: application/json
 
 {
-  "username": "admin_user",
-  "correo": "admin@example.com",
-  "password": "admin_pass"
+  "username": "josePruebaRegistro2",
+  "correo": "josePrueba@example.com",
+  "password": "jose"
 }
 
 <> 2024-06-19T144822.200.txt
@@ -16,7 +16,7 @@ Content-Type: application/json
 {
   "username": "regular_user",
   "correo": "user@example.com",
-  "password": "user_pass"
+  "password": "123"
 }
 
 <> 2024-06-19T144822-1.200.txt

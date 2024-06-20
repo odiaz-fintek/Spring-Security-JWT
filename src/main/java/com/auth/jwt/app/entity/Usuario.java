@@ -1,8 +1,13 @@
 package com.auth.jwt.app.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -34,10 +39,14 @@ public class Usuario implements Serializable {
     @NotNull
     private String password;
 
-    private boolean activo;
+    @Column(length = 512)
+    @Getter @Setter
+    private String token;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Producto> productos;
+    @Getter @Setter
+    private LocalDateTime tokenExpirationDate;
+
+    private boolean activo;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
