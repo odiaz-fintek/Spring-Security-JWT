@@ -8,6 +8,8 @@ import com.auth.jwt.app.security.service.MiUserDetailsService;
 import com.auth.jwt.app.security.utils.JwtUtil;
 import com.auth.jwt.app.service.IRoleService;
 import com.auth.jwt.app.service.IUsuarioService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class HomeController {
 
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
     /* ~ Autowired
     ------------------------------------------------------------------------------- */
     @Autowired
@@ -39,48 +42,56 @@ public class HomeController {
     /* ~ Rutas publicas
     ------------------------------------------------------------------------------- */
     @GetMapping("/public")
-    public String homePublic(){
+    public String homePublic() {
+        logger.info("Accessed public home page");
         return "Pagina de inicio al publico";
-    } // fin de la peticion
+    }
 
     @PostMapping("/registrarse")
-    public ResponseEntity<?> registrarse(@RequestBody Usuario usuario){
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+    public ResponseEntity<?> registrarse(@RequestBody Usuario usuario) {
+        logger.info("Request received to register a new user");
 
-        // Asignar role de user
-        Role role = roleService.buscarRolePorId(3);
-        usuario.agregarRoleALista(role);
-        usuario.setActivo(true);
-        usuarioService.guardarUsuario(usuario);
+        try {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+            // Asignar role de user
+            Role role = roleService.buscarRolePorId(3);
+            usuario.agregarRoleALista(role);
+            usuario.setActivo(true);
+            usuarioService.guardarUsuario(usuario);
 
-        return ResponseEntity.ok("Usuario registrado correctamente");
-    } // fin de la pagina de registro
+            logger.info("User registered successfully");
+            return ResponseEntity.ok("Usuario registrado correctamente");
+        } catch (Exception e) {
+            logger.error("Error registering user: {}", e.getMessage(), e);
+            return ResponseEntity.status(500).body("Error registrando usuario");
+        }
+    }
 
     @PostMapping("/iniciar")
-    public ResponseEntity<?> iniciarSesion(@RequestBody AutenticacionLogin autLogin) throws Exception{
-        //autLogin.getPassword();
+    public ResponseEntity<?> iniciarSesion(@RequestBody AutenticacionLogin autLogin) throws Exception {
+        logger.info("Request received to login");
+
         try {
             authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(autLogin.getUsername(), autLogin.getPassword())
             );
 
-        }catch (BadCredentialsException ex){
+            // Obtenemos los datos del usuario de la BD para construir el token
+            final UserDetails userDetails = miUserDetailsService.loadUserByUsername(autLogin.getUsername());
+            final String token = jwtUtil.creatToken(userDetails);
+
+            logger.info("User logged in successfully");
+            // Regresamos el token
+            return ResponseEntity.ok(new AutenticacionResponse(token));
+        } catch (BadCredentialsException ex) {
+            logger.error("Error logging in: {}", ex.getMessage(), ex);
             throw new Exception("Error en el username o contraseña " + ex.getMessage());
-        } // fin de try~catch
+        }
+    }
 
-        // Obtenemos los datos del usuario de la BD para construir el token
-        final UserDetails userDetails = miUserDetailsService.loadUserByUsername(autLogin.getUsername());
-        final String token = jwtUtil.creatToken(userDetails);
-
-        // Regresamos el token
-        return ResponseEntity.ok(new AutenticacionResponse(token));
-    } // fin para iniciar sesion
-
-
-    /* ~ Rutas privadas (requieren token)
-    ------------------------------------------------------------------------------- */
     @GetMapping("/home")
-    public String userAuthenticated(){
+    public String userAuthenticated() {
+        logger.info("Acceso a Home por usuario autenticado");
         return "Welcome";
     }
 
