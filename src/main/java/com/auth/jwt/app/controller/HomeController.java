@@ -70,13 +70,6 @@ public class HomeController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error en el username o contraseña: " + ex.getMessage());
         } // fin de try~catch
 
-//        // Obtenemos los datos del usuario de la BD para construir el token
-//        final UserDetails userDetails = miUserDetailsService.loadUserByUsername(autLogin.getUsername());
-//        final String token = jwtUtil.creatToken(userDetails);
-//
-//        // Regresamos el token
-//        return ResponseEntity.ok(new AutenticacionResponse(token));
-//        return ResponseEntity.ok("Inicio de sesión exitoso");
     } // fin para iniciar sesion
 
 
