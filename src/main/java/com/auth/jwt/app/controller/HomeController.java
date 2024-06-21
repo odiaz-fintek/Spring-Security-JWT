@@ -98,7 +98,7 @@ public class HomeController {
         }
     }
 
-    /*@PostMapping("/keep-alive")
+    @PostMapping("/keep-alive")
     public ResponseEntity<?> keepAlive(HttpServletRequest request) {
         final String headerAuth = request.getHeader("Authorization");
 
@@ -113,7 +113,7 @@ public class HomeController {
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
-    }*/
+    }
 
     /* ~ Rutas privadas (requieren token)
     ------------------------------------------------------------------------------- */
