@@ -3,14 +3,18 @@ package com.auth.jwt.app.controller;
 import com.auth.jwt.app.entity.Role;
 import com.auth.jwt.app.entity.Usuario;
 import com.auth.jwt.app.payload.AutenticacionLogin;
+import com.auth.jwt.app.payload.AutenticacionRegistro;
 import com.auth.jwt.app.payload.AutenticacionResponse;
+import com.auth.jwt.app.security.service.MiUserDetails;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
 import com.auth.jwt.app.security.utils.JwtUtil;
 import com.auth.jwt.app.service.IRoleService;
 import com.auth.jwt.app.service.IUsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.auth.jwt.app.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,10 +23,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 public class HomeController {
 
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
     /* ~ Autowired
     ------------------------------------------------------------------------------- */
     @Autowired
@@ -38,6 +43,8 @@ public class HomeController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private UsuarioService customUsuarioService;
 
     /* ~ Rutas publicas
     ------------------------------------------------------------------------------- */
@@ -89,6 +96,22 @@ public class HomeController {
         }
     }
 
+    @PostMapping("/keep-alive")
+    public ResponseEntity<?> keepAlive(HttpServletRequest request) {
+        /*final String headerAuth = request.getHeader("Authorization");
+
+        if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
+            String token = headerAuth.substring(7);
+            String username = jwtUtil.extraerUsername(token);
+            UserDetails userDetails = miUserDetailsService.loadUserByUsername(username);
+
+            if (jwtUtil.validarToken(token, userDetails)) {
+                String newToken = jwtUtil.creatToken(userDetails);
+                return ResponseEntity.ok(new AutenticacionResponse(newToken));
+            }
+        }
+        return ResponseEntity.status(HttpSta*/tus.UNAUTHORIZED).body("Invalid token");
+    }
 
     /* ~ Rutas privadas (requieren token)
     ------------------------------------------------------------------------------- */

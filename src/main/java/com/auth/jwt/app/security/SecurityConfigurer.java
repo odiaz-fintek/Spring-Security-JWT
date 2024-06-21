@@ -31,7 +31,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    /*~~(Migrate manually based on https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)~~>*/@Bean
+    @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception{
         return super.authenticationManagerBean();
     }
@@ -45,7 +45,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
      * @param auth usado para indicar la autenticacion por medio de la BD.
      * @throws Exception si existe un problema con la autenticacion.
      */
-    /*~~(Migrate manually based on https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)~~>*/@Override
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passEncoder());
     }
@@ -58,22 +58,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
      * @param http URL usada para comparar el acceso
      * @throws Exception Si no tiene acceso a los recursos
      */
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
-//                .authorizeRequests()
-//                    .antMatchers("/registrarse", "/iniciar", "/public")
-//                    .permitAll()
-//                    .anyRequest()
-//                    .permitAll()
-//                .and()
-//                    .sessionManagement()
-//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//        // Indicamos que usaremos un filtro
-//        http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() // Disable CSRF for simplicity, enable in production
@@ -83,5 +67,4 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic(); // Use basic authentication
     }
-
 } // fin de la clase de configuracion
