@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class HomeController {
 
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+
     /* ~ Autowired
     ------------------------------------------------------------------------------- */
     @Autowired
@@ -96,9 +98,9 @@ public class HomeController {
         }
     }
 
-    @PostMapping("/keep-alive")
+    /*@PostMapping("/keep-alive")
     public ResponseEntity<?> keepAlive(HttpServletRequest request) {
-        /*final String headerAuth = request.getHeader("Authorization");
+        final String headerAuth = request.getHeader("Authorization");
 
         if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
             String token = headerAuth.substring(7);
@@ -110,8 +112,8 @@ public class HomeController {
                 return ResponseEntity.ok(new AutenticacionResponse(newToken));
             }
         }
-        return ResponseEntity.status(HttpSta*/tus.UNAUTHORIZED).body("Invalid token");
-    }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+    }*/
 
     /* ~ Rutas privadas (requieren token)
     ------------------------------------------------------------------------------- */
