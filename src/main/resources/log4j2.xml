@@ -11,6 +11,17 @@
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
+
+        <!-- Appender for error logging -->
+        <RollingFile name="ErrorFileAppender" fileName="logs/error-log.json"
+                     filePattern="logs/error-log-%d{yyyy-MM-dd}-%i.json">
+            <JsonLayout complete="false" compact="true" eventEol="true"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
     </Appenders>
 
     <Loggers>

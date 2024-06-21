@@ -8,6 +8,8 @@ import com.auth.jwt.app.security.service.MiUserDetailsService;
 import com.auth.jwt.app.security.utils.JwtUtil;
 import com.auth.jwt.app.service.IRoleService;
 import com.auth.jwt.app.service.IUsuarioService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -75,13 +77,12 @@ public class HomeController {
                     new UsernamePasswordAuthenticationToken(autLogin.getUsername(), autLogin.getPassword())
             );
 
-            // Obtenemos los datos del usuario de la BD para construir el token
-            final UserDetails userDetails = miUserDetailsService.loadUserByUsername(autLogin.getUsername());
-            final String token = jwtUtil.creatToken(userDetails);
-
             logger.info("User logged in successfully");
+            return ResponseEntity.ok("Inicio de sesión exitoso");
+            // Obtenemos los datos del usuario de la BD para construir el token
+
+
             // Regresamos el token
-            return ResponseEntity.ok(new AutenticacionResponse(token));
         } catch (BadCredentialsException ex) {
             logger.error("Error logging in: {}", ex.getMessage(), ex);
             throw new Exception("Error en el username o contraseña " + ex.getMessage());
