@@ -56,6 +56,16 @@ public class Usuario implements Serializable {
     )
     private List<Role> roles;
 
+    /* Conteno de intentos*/
+    @Getter @Setter
+    private boolean accountNonLocked = true;
+
+    @Getter @Setter
+    private int failedAttempt = 0;
+
+    @Getter @Setter
+    private Date lockTime;
+
 
 
     /* ~ Metodos

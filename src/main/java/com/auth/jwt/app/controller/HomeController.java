@@ -5,10 +5,12 @@ import com.auth.jwt.app.entity.Usuario;
 import com.auth.jwt.app.payload.AutenticacionLogin;
 import com.auth.jwt.app.payload.AutenticacionRegistro;
 import com.auth.jwt.app.payload.AutenticacionResponse;
+import com.auth.jwt.app.security.service.MiUserDetails;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
 import com.auth.jwt.app.security.utils.JwtUtil;
 import com.auth.jwt.app.service.IRoleService;
 import com.auth.jwt.app.service.IUsuarioService;
+import com.auth.jwt.app.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping(value = "api/jwt")
 public class HomeController {
 
     /* ~ Autowired
@@ -36,6 +39,8 @@ public class HomeController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private UsuarioService customUsuarioService;
 
     /* ~ Rutas publicas
     ------------------------------------------------------------------------------- */
@@ -73,18 +78,39 @@ public class HomeController {
                     new UsernamePasswordAuthenticationToken(autLogin.getUsername(), autLogin.getPassword())
             );
 
-        }catch (BadCredentialsException ex){
+            final UserDetails userDetails = miUserDetailsService.loadUserByUsername(autLogin.getUsername());
+            Usuario usuario = ((MiUserDetails) userDetails).getUsuario();
+
+            /*Manejo de intentos*/
+            if (!usuario.isAccountNonLocked()) {
+                if (customUsuarioService.unlockWhenTimeExpired(usuario)) {
+                    throw new Exception("Tu cuenta ha sido desbloqueada. Por favor, intenta de nuevo.");
+                } else {
+                    throw new Exception("Tu cuenta está bloqueada. Intenta después de 24 horas.");
+                }
+            }
+
+            if (passwordEncoder.matches(autLogin.getPassword(), usuario.getPassword())) {
+                if (usuario.getFailedAttempt() > 0) {
+                    customUsuarioService.resetFailedAttempts(usuario.getUsername());
+                }
+
+                final String token = jwtUtil.creatToken(userDetails);
+                return ResponseEntity.ok(new AutenticacionResponse(token));
+            } else {
+                if (usuario.getFailedAttempt() < UsuarioService.MAX_FAILED_ATTEMPTS - 1) {
+                    customUsuarioService.increaseFailedAttempts(usuario);
+                } else {
+                    customUsuarioService.lock(usuario);
+                    throw new Exception("Tu cuenta ha sido bloqueada debido a múltiples intentos fallidos.");
+                }
+
+                throw new Exception("Contraseña incorrecta.");
+            }
+        } catch (BadCredentialsException ex) {
             throw new Exception("Error en el username o contraseña " + ex.getMessage());
-        } // fin de try~catch
-
-        // Obtenemos los datos del usuario de la BD para construir el token
-        final UserDetails userDetails = miUserDetailsService.loadUserByUsername(autLogin.getUsername());
-        final String token = jwtUtil.creatToken(userDetails);
-
-        // Regresamos el token
-        return ResponseEntity.ok(new AutenticacionResponse(token));
-    } // fin para iniciar sesion
-
+        }
+    }
 
     /* ~ Rutas privadas (requieren token)
     ------------------------------------------------------------------------------- */
