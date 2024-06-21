@@ -12,21 +12,6 @@
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
 
-        <!-- Appender for severe error logging -->
-        <RollingFile name="ErrorFileAppender" fileName="logs/error-log.json"
-                     filePattern="logs/error-log-%d{yyyy-MM-dd}-%i.json">
-            <JsonLayout complete="false" compact="true"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="100MB"/>
-                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
-            </Policies>
-            <DefaultRolloverStrategy max="10"/>
-            <Filters>
-                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
-            </Filters>
-        </RollingFile>
-    </Appenders>
-
     <Loggers>
         <Root level="info">
             <AppenderRef ref="JsonFileAppender"/>
