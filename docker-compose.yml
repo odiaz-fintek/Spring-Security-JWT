@@ -10,7 +10,7 @@ services:
     image: mysql:8.0
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: SprintOne
       MYSQL_USER: user_name
       MYSQL_PASSWORD: user_password
