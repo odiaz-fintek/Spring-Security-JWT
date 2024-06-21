@@ -12,6 +12,7 @@ import com.auth.jwt.app.service.IRoleService;
 import com.auth.jwt.app.service.IUsuarioService;
 import com.auth.jwt.app.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,6 +20,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "api/jwt")
@@ -110,6 +113,23 @@ public class HomeController {
         } catch (BadCredentialsException ex) {
             throw new Exception("Error en el username o contraseña " + ex.getMessage());
         }
+    }
+
+    @PostMapping("/keep-alive")
+    public ResponseEntity<?> keepAlive(HttpServletRequest request) {
+        final String headerAuth = request.getHeader("Authorization");
+
+        if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
+            String token = headerAuth.substring(7);
+            String username = jwtUtil.extraerUsername(token);
+            UserDetails userDetails = miUserDetailsService.loadUserByUsername(username);
+
+            if (jwtUtil.validarToken(token, userDetails)) {
+                String newToken = jwtUtil.creatToken(userDetails);
+                return ResponseEntity.ok(new AutenticacionResponse(newToken));
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
 
     /* ~ Rutas privadas (requieren token)

@@ -64,7 +64,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/api/jwt/iniciar", "/api/jwt/registrarse", "/api/jwt/public").permitAll()
+                    .antMatchers("/api/jwt/iniciar", "/api/jwt/registrarse", "/api/jwt/public", "api/jwt/keep-alive").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
