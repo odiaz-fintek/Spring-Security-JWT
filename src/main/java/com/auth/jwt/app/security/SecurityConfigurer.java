@@ -58,19 +58,30 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
      * @param http URL usada para comparar el acceso
      * @throws Exception Si no tiene acceso a los recursos
      */
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                    .antMatchers("/registrarse", "/iniciar", "/public")
+//                    .permitAll()
+//                    .anyRequest()
+//                    .permitAll()
+//                .and()
+//                    .sessionManagement()
+//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//        // Indicamos que usaremos un filtro
+//        http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.csrf().disable() // Disable CSRF for simplicity, enable in production
                 .authorizeRequests()
-                    .antMatchers("/registrarse", "/iniciar", "/public")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
+                    .antMatchers("/registrarse", "/iniciar", "/public").permitAll() // Allow these endpoints without authentication
+                    .anyRequest().permitAll()// Require authentication for all other requests
                 .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        // Indicamos que usaremos un filtro
-        http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
+                .httpBasic(); // Use basic authentication
     }
+
 } // fin de la clase de configuracion

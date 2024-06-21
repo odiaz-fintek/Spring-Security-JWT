@@ -9,6 +9,7 @@ import com.auth.jwt.app.security.utils.JwtUtil;
 import com.auth.jwt.app.service.IRoleService;
 import com.auth.jwt.app.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -63,17 +64,12 @@ public class HomeController {
             authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(autLogin.getUsername(), autLogin.getPassword())
             );
+            return ResponseEntity.ok("Inicio de sesión exitoso");
 
         }catch (BadCredentialsException ex){
-            throw new Exception("Error en el username o contraseña " + ex.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error en el username o contraseña: " + ex.getMessage());
         } // fin de try~catch
 
-        // Obtenemos los datos del usuario de la BD para construir el token
-        final UserDetails userDetails = miUserDetailsService.loadUserByUsername(autLogin.getUsername());
-        final String token = jwtUtil.creatToken(userDetails);
-
-        // Regresamos el token
-        return ResponseEntity.ok(new AutenticacionResponse(token));
     } // fin para iniciar sesion
 
 
