@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-
 /**
  * Clase que implementa los metodos de la interfaz {@link IUsuarioService} del servicio para
  * usuarios.
@@ -23,7 +22,7 @@ public class UsuarioService implements IUsuarioService {
         maneja los intentos de inicio de sesión y el bloqueo de cuenta.
     */
     public static final int MAX_FAILED_ATTEMPTS = 3;
-//    private static final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000; // 24 horas
+    //    private static final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000; // 24 horas
     private static final long LOCK_TIME_DURATION = 3 * 60 * 1000; // 3 minutos en milisegundos
 
     /**
@@ -31,7 +30,6 @@ public class UsuarioService implements IUsuarioService {
      */
     @Autowired
     private UsuarioRepository usuarioRepository;
-
 
     @Override
     @Transactional(readOnly = true)
@@ -79,18 +77,27 @@ public class UsuarioService implements IUsuarioService {
     */
     public void increaseFailedAttempts(Usuario usuario) {
         int newFailAttempts = usuario.getFailedAttempt() + 1;
-        usuarioRepository.updateFailedAttempts(newFailAttempts, usuario.getUsername());
+        usuario.setFailedAttempt(newFailAttempts);
+
+        if (newFailAttempts >= MAX_FAILED_ATTEMPTS) {
+            lock(usuario);
+        } else {
+            usuarioRepository.save(usuario);
+        }
     }
 
     public void resetFailedAttempts(String username) {
-        usuarioRepository.updateFailedAttempts(0, username);
+        Usuario usuario = usuarioRepository.buscarUsuarioPorUsername(username).orElse(null);
+        if (usuario != null) {
+            usuario.setFailedAttempt(0);
+            usuarioRepository.save(usuario);
+        }
     }
 
     public void lock(Usuario usuario) {
         usuario.setAccountNonLocked(false);
-        usuario.setLockTime((java.sql.Date) new Date());
-
-        usuarioRepository.lockAccount(usuario.getLockTime(), usuario.getUsername());
+        usuario.setLockTime(new java.sql.Date(System.currentTimeMillis()));
+        usuarioRepository.save(usuario);
     }
 
     public boolean unlockWhenTimeExpired(Usuario usuario) {
@@ -101,15 +108,10 @@ public class UsuarioService implements IUsuarioService {
             usuario.setAccountNonLocked(true);
             usuario.setLockTime(null);
             usuario.setFailedAttempt(0);
-
             usuarioRepository.save(usuario);
-
             return true;
         }
 
         return false;
     }
-
-
-
 } // fin de la implementacion de los servicios

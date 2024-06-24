@@ -2,6 +2,7 @@ package com.auth.jwt.app.security;
 
 import com.auth.jwt.app.filter.AuthFiltroToken;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
+import com.auth.jwt.app.service.AuthBlock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
@@ -24,6 +26,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthFiltroToken authFiltroToken;
 
+    @Autowired
+    private AuthBlock authBlock;
+
     /* ~ BEANS
     -------------------------------------------------------------- */
     @Bean
@@ -36,7 +41,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
     /**
      * Indicamos que queremos una autenticacion personalizada en este caso definimos el comportamiento
      * del <b>serDetailsService</b> en nuestra clase {@link MiUserDetailsService}, esto permite personalizar
@@ -46,7 +50,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
      * @throws Exception si existe un problema con la autenticacion.
      */
     /*~~(Migrate manually based on https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)~~>*/@Override
+
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authBlock);
         auth.userDetailsService(userDetailsService).passwordEncoder(passEncoder());
     }
 

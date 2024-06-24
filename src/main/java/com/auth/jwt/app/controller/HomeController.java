@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -91,10 +92,15 @@ public class HomeController {
             // Obtenemos los datos del usuario de la BD para construir el token
 
 
-            // Regresamos el token
         } catch (BadCredentialsException ex) {
             logger.error("Error logging in: {}", ex.getMessage(), ex);
-            throw new Exception("Error en el username o contraseña " + ex.getMessage());
+            return ResponseEntity.status(401).body("Error en el username o contraseña: " + ex.getMessage());
+        } catch (LockedException ex) {
+            logger.error("Account is locked: {}", ex.getMessage(), ex);
+            return ResponseEntity.status(403).body("Su cuenta está bloqueada. Por favor, intente más tarde: " + ex.getMessage());
+        } catch (Exception ex) {
+            logger.error("Unexpected error: {}", ex.getMessage(), ex);
+            return ResponseEntity.status(500).body("Error en el usuario o contraseña: " + ex.getMessage());
         }
     }
 
