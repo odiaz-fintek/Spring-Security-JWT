@@ -25,7 +25,8 @@ public class AuthBlock implements AuthenticationProvider
     @Autowired
     private UserDetailsService userDetailsService;
 
-    private static final int MAX_FAILED_ATTEMPTS = 3;
+
+    private static final int MAX_FAILED_ATTEMPTS = UsuarioService.MAX_FAILED_ATTEMPTS;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
