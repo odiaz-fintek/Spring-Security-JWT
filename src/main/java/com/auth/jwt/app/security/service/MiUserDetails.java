@@ -2,6 +2,7 @@ package com.auth.jwt.app.security.service;
 
 import com.auth.jwt.app.entity.Role;
 import com.auth.jwt.app.entity.Usuario;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,9 @@ import java.util.List;
  * Almacenando información del usuario que más tarde se encapsula en objetos de autenticación
  */
 public class MiUserDetails implements UserDetails {
+
+    @Getter
+    private Usuario usuario;
     /* ~ Propiedades
     ==================================== */
     private String username;
@@ -26,6 +30,7 @@ public class MiUserDetails implements UserDetails {
     ==================================== */
     public MiUserDetails(Usuario usuario){
         this.authorities = new ArrayList<SimpleGrantedAuthority>();
+        this.usuario=usuario;
         this.username = usuario.getUsername();
         this.password = usuario.getPassword();
         this.active = usuario.isActivo();
@@ -56,7 +61,7 @@ public class MiUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.usuario.isAccountNonLocked();
     }
 
     @Override
@@ -68,4 +73,5 @@ public class MiUserDetails implements UserDetails {
     public boolean isEnabled() {
         return this.active;
     }
+
 } // fin de la clase details
