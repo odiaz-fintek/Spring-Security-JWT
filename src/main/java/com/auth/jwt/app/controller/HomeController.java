@@ -78,7 +78,7 @@ public class HomeController {
     }
 
     @PostMapping("/iniciar")
-    public ResponseEntity<?> iniciarSesion(@RequestBody AutenticacionLogin autLogin) throws Exception {
+    public ResponseEntity<?> iniciarSesion(@RequestBody AutenticacionLogin autLogin) {
 
         logger.info("Request received to login");
 
@@ -89,8 +89,6 @@ public class HomeController {
 
             logger.info("User logged in successfully");
             return ResponseEntity.ok("Inicio de sesión exitoso");
-            // Obtenemos los datos del usuario de la BD para construir el token
-
 
         } catch (BadCredentialsException ex) {
             logger.error("Error logging in: {}", ex.getMessage(), ex);

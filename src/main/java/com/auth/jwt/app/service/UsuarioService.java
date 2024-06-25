@@ -87,7 +87,7 @@ public class UsuarioService implements IUsuarioService {
     }
 
     public void resetFailedAttempts(String username) {
-        Usuario usuario = usuarioRepository.buscarUsuarioPorUsername(username).orElse(null);
+        Usuario usuario = buscarUsuarioPorUsername(username);
         if (usuario != null) {
             usuario.setFailedAttempt(0);
             usuarioRepository.save(usuario);
