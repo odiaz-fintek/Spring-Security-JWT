@@ -25,6 +25,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RestController
 public class HomeController {
@@ -104,20 +105,15 @@ public class HomeController {
 
     @PostMapping("/keep-alive")
     public ResponseEntity<?> keepAlive(HttpServletRequest request) {
-        final String headerAuth = request.getHeader("Authorization");
-
-        if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
-            String token = headerAuth.substring(7);
-            String username = jwtUtil.extraerUsername(token);
-            UserDetails userDetails = miUserDetailsService.loadUserByUsername(username);
-
-            if (jwtUtil.validarToken(token, userDetails)) {
-                String newToken = jwtUtil.creatToken(userDetails);
-                return ResponseEntity.ok(new AutenticacionResponse(newToken));
-            }
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.setMaxInactiveInterval(300); // Reset to 5 minutes (300 seconds)
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build(); // Handle session not found
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
+
 
     /* ~ Rutas privadas (requieren token)
     ------------------------------------------------------------------------------- */
@@ -125,6 +121,12 @@ public class HomeController {
     public String userAuthenticated() {
         logger.info("Acceso a Home por usuario autenticado");
         return "Welcome";
+    }
+
+    @GetMapping("/logoutforced")
+    public String logoutForced() {
+        logger.info("Logout de usuario");
+        return "Su sesion a terminado por inactividad";
     }
 
 } // fin del controlador home

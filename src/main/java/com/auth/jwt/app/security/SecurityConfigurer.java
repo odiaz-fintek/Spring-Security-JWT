@@ -70,11 +70,13 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/registrarse", "/iniciar", "/public")
                     .permitAll()
-                    .anyRequest()
+                    .antMatchers("/home")
                     .permitAll()
                 .and()
                     .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    .invalidSessionUrl("/logoutforced")
+                    .maximumSessions(1)
+                    .expiredUrl("/logoutforced");
 
         // Indicamos que usaremos un filtro
         http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
