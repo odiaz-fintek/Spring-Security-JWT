@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/productos")
+@RequestMapping("/api/productos")
 public class ProductoController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class ProductoController {
         return productoRepository.findById(id).orElse(null);
     }
 
-    @PostMapping("create")
+    @PostMapping("/create")
     public Producto createProducto(@RequestBody Producto producto) {
         return productoRepository.save(producto);
     }

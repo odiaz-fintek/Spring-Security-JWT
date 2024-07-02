@@ -5,7 +5,6 @@ import com.auth.jwt.app.entity.Usuario;
 import com.auth.jwt.app.payload.AutenticacionLogin;
 import com.auth.jwt.app.payload.AutenticacionRegistro;
 import com.auth.jwt.app.payload.AutenticacionResponse;
-import com.auth.jwt.app.security.service.MiUserDetails;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
 import com.auth.jwt.app.security.utils.JwtUtil;
 import com.auth.jwt.app.service.IRoleService;
@@ -14,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.auth.jwt.app.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -47,29 +45,24 @@ public class HomeController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private UsuarioService customUsuarioService;
 
     /* ~ Rutas publicas
     ------------------------------------------------------------------------------- */
     @GetMapping("/public")
-    public String homePublic() {
+    public String homePublic(){
         logger.info("Accessed public home page");
         return "Pagina de inicio al publico";
-    }
+    } // fin de la peticion
 
     @PostMapping("/registrarse")
-    public ResponseEntity<?> registrarse(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> registrarse(@RequestBody Usuario usuario){
         logger.info("Request received to register a new user");
-
         try {
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-            // Asignar role de user
             Role role = roleService.buscarRolePorId(3);
             usuario.agregarRoleALista(role);
             usuario.setActivo(true);
             usuarioService.guardarUsuario(usuario);
-
             logger.info("User registered successfully");
             return ResponseEntity.ok("Usuario registrado correctamente");
         } catch (Exception e) {
@@ -79,8 +72,8 @@ public class HomeController {
     }
 
     @PostMapping("/iniciar")
-    public ResponseEntity<?> iniciarSesion(@RequestBody AutenticacionLogin autLogin) {
-
+    public ResponseEntity<?> iniciarSesion(@RequestBody AutenticacionLogin autLogin) throws Exception{
+        //autLogin.getPassword();
         logger.info("Request received to login");
 
         try {
@@ -89,7 +82,6 @@ public class HomeController {
             );
 
             logger.info("User logged in successfully");
-            return ResponseEntity.ok("Inicio de sesión exitoso");
 
         } catch (BadCredentialsException ex) {
             logger.error("Error logging in: {}", ex.getMessage(), ex);
@@ -100,8 +92,15 @@ public class HomeController {
         } catch (Exception ex) {
             logger.error("Unexpected error: {}", ex.getMessage(), ex);
             return ResponseEntity.status(500).body("Error en el usuario o contraseña: " + ex.getMessage());
-        }
-    }
+        }// fin de try~catch
+
+        // Obtenemos los datos del usuario de la BD para construir el token
+        final UserDetails userDetails = miUserDetailsService.loadUserByUsername(autLogin.getUsername());
+        final String token = jwtUtil.creatToken(userDetails);
+
+        // Regresamos el token
+        return ResponseEntity.ok(new AutenticacionResponse(token));
+    } // fin para iniciar sesion
 
     @PostMapping("/keep-alive")
     public ResponseEntity<?> keepAlive(HttpServletRequest request) {
@@ -118,25 +117,9 @@ public class HomeController {
     /* ~ Rutas privadas (requieren token)
     ------------------------------------------------------------------------------- */
     @GetMapping("/home")
-    public ResponseEntity<?> userAuthenticated(@RequestBody AutenticacionLogin autLogin) {
-        try {
-            authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(autLogin.getUsername(), autLogin.getPassword())
-            );
-    
-            logger.info("Acceso a Home por usuario autenticado");
-            return ResponseEntity.ok("Welcome to the home page!");
-    
-        } catch (BadCredentialsException ex) {
-            logger.error("Error logging in: {}", ex.getMessage(), ex);
-            return ResponseEntity.status(401).body("Error en el username o contraseña: " + ex.getMessage());
-        } catch (LockedException ex) {
-            logger.error("Account is locked: {}", ex.getMessage(), ex);
-            return ResponseEntity.status(403).body("Su cuenta está bloqueada. Por favor, intente más tarde: " + ex.getMessage());
-        } catch (Exception ex) {
-            logger.error("Unexpected error: {}", ex.getMessage(), ex);
-            return ResponseEntity.status(500).body("Error en el usuario o contraseña: " + ex.getMessage());
-        }
+    public String userAuthenticated(){
+        logger.info("Acceso a Home por usuario autenticado");
+        return "Welcome";
     }
 
     @GetMapping("/logoutforced")

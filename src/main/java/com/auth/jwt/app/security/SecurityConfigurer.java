@@ -2,7 +2,8 @@ package com.auth.jwt.app.security;
 
 import com.auth.jwt.app.filter.AuthFiltroToken;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
-import com.auth.jwt.app.service.AuthBlock;
+// import com.auth.jwt.app.service.AuthBlock;
+import com.auth.jwt.app.security.service.AuthBlock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -68,13 +69,13 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .anyRequest().permitAll()
-                    // .antMatchers("/registrarse", "/iniciar", "/public", "/home")
-                    // .permitAll()
-                    // .antMatchers("/home")
-                    // .permitAll()
+                    .antMatchers("/registrarse", "/iniciar", "/public")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
                 .and()
                     .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .invalidSessionUrl("/logoutforced")
                     .maximumSessions(1)
                     .expiredUrl("/logoutforced");

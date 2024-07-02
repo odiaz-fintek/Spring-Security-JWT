@@ -6,17 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 /**
  * Clase que implementa los metodos de la interfaz {@link IUsuarioService} del servicio para
  * usuarios.
  */
 @Service
-@Transactional
 public class UsuarioService implements IUsuarioService {
-    /* ~ Constantes
-    ==================================== */
 
     /*
         maneja los intentos de inicio de sesión y el bloqueo de cuenta.
@@ -114,4 +110,5 @@ public class UsuarioService implements IUsuarioService {
 
         return false;
     }
+
 } // fin de la implementacion de los servicios

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -48,14 +49,6 @@ public class Usuario implements Serializable {
 
     private boolean activo;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "usuarios_roles",
-            joinColumns = {@JoinColumn(name = "id_usuario")},
-            inverseJoinColumns = {@JoinColumn(name = "id_role")}
-    )
-    private List<Role> roles;
-
     /* Conteno de intentos*/
     @Getter @Setter
     private boolean accountNonLocked = true;
@@ -66,6 +59,30 @@ public class Usuario implements Serializable {
     @Getter @Setter
     private Date lockTime;
 
+    /*----------References de usuarios y rol -----------------*/
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "usuarios_roles",
+            joinColumns = {@JoinColumn(name = "id_usuario")},
+            inverseJoinColumns = {@JoinColumn(name = "id_role")}
+    )
+    private List<Role> roles;
+    /*----------References de usuarios y producto -----------------*/
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "usuario_producto",
+            joinColumns = {@JoinColumn(name = "usuario_id")},
+            inverseJoinColumns = {@JoinColumn(name = "producto_id")}
+    )
+    private Set<Producto> productos = new HashSet<>();
+    /*
+    *   Set es una colección que no permite elementos duplicados
+    *   Usuario no tenga el mismo Producto asociado más de una vez.
+    *
+    *   HashSet es una implementación de la interfaz Set que utiliza
+    *   una tabla hash para almacenar los elementos.
+    *
+    * */
 
 
     /* ~ Metodos
