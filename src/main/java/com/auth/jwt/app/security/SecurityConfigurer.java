@@ -2,8 +2,8 @@ package com.auth.jwt.app.security;
 
 import com.auth.jwt.app.filter.AuthFiltroToken;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
-// import com.auth.jwt.app.service.AuthBlock;
-import com.auth.jwt.app.security.service.AuthBlock;
+import com.auth.jwt.app.service.AuthBlock;
+//import com.auth.jwt.app.security.service.AuthBlock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;

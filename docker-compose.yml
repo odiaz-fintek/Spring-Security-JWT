@@ -9,7 +9,7 @@ services:
       MYSQL_DATABASE: jpa_db
       MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
     ports:
-      - "3306:3306"
+      - "6033:3306"
     volumes:
       - db-data:/var/lib/mysql
 
@@ -21,7 +21,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
       TOKEN_API_KEY: sprgboot
-      TOKEN_PALABRA_SECRETA: github
+      TOKEN_PALABRA_SECRETA: gihub
       SERVER_PORT: 8081
     ports:
       - "8081:8081"
