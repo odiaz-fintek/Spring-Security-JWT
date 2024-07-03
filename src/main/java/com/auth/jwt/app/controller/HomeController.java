@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.auth.jwt.app.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 public class HomeController {
@@ -45,6 +47,8 @@ public class HomeController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Value("${token.palabra.secreta}")
+    private String SECRETO;
 
     /* ~ Rutas publicas
     ------------------------------------------------------------------------------- */
@@ -59,6 +63,11 @@ public class HomeController {
         logger.info("Request received to register a new user");
         try {
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+            // Generar apikey
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            usuario.setApikey(encoder.encode(usuario.getUsername() + usuario.getPassword() + SECRETO));
+
+            // Asignar role de user
             Role role = roleService.buscarRolePorId(3);
             usuario.agregarRoleALista(role);
             usuario.setActivo(true);

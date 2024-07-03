@@ -1,21 +1,128 @@
 package com.auth.jwt.app.security;
 
+import com.auth.jwt.app.filter.ApiKeyAuthFilter;
+
+// import com.auth.jwt.app.filter.AuthFiltroApiKey;
+// import com.auth.jwt.app.filter.AuthFiltroToken;
+// import com.auth.jwt.app.payload.AutenticacionApiKey;
+// import com.auth.jwt.app.security.service.MiUserDetailsService;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.context.annotation.Bean;
+// import org.springframework.context.annotation.Configuration;
+// import org.springframework.security.authentication.AuthenticationManager;
+// import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+// import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+// import org.springframework.security.config.http.SessionCreationPolicy;
+// import org.springframework.security.core.authority.SimpleGrantedAuthority;
+// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+// import org.springframework.security.web.SecurityFilterChain;
+// import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+// import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+// import java.util.Collections;
+
+// @Configuration
+// @EnableWebSecurity
+// public class SecurityConfigurer {
+
+//     /* ~ Autowired
+//     -------------------------------------------------------------- */
+//     @Autowired
+//     private MiUserDetailsService userDetailsService;
+
+//     @Autowired
+//     private AuthFiltroToken authFiltroToken;
+
+//     /* ~ BEANS
+//     -------------------------------------------------------------- */
+//     @Bean
+//     public BCryptPasswordEncoder passEncoder() {
+//         return new BCryptPasswordEncoder();
+//     }
+
+//     @Bean
+//     public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
+//         AuthenticationManagerBuilder authManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+//         authManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passEncoder());
+//         return authManagerBuilder.build();
+//     }
+
+//     @Bean
+//     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//         AuthFiltroApiKey filter = new AuthFiltroApiKey(new AntPathRequestMatcher("/api/**"));
+//         filter.setAuthenticationManager(authentication -> {
+//             String apiKey = (String) authentication.getPrincipal();
+//             String apiSecret = (String) authentication.getCredentials();
+
+//             if ("valid-api-key".equals(apiKey) && "valid-api-secret".equals(apiSecret)) {
+//                 return new AutenticacionApiKey(apiKey, apiSecret, Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+//             } else {
+//                 authentication.setAuthenticated(false);
+//             }
+
+//             return authentication;
+//         });
+
+//         http
+//             .csrf().disable()
+//             .authorizeRequests(authorizeRequests ->
+//                 authorizeRequests
+//                     .antMatchers("/registrarse", "/iniciar", "/public").permitAll()
+//                     .anyRequest().authenticated()
+//             )
+//             .sessionManagement(sessionManagement ->
+//                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//             )
+//             .addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class)
+//             .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+
+//         return http.build();
+//     }
+// }
+
+
+
+
+
+
+
+
+
+// package com.auth.jwt.app.security;
 import com.auth.jwt.app.filter.AuthFiltroToken;
+// import com.auth.jwt.app.payload.AutenticacionApiKey;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
 // import com.auth.jwt.app.service.AuthBlock;
 import com.auth.jwt.app.security.service.AuthBlock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+// import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+// import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+// Cambios 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.security.web.SecurityFilterChain;
+// import org.springframework.security.web.authentication.AuthenticationFilter;
+// Fin de cambios
+
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.util.Collections;
+
+@Configuration
 @EnableWebSecurity
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
@@ -29,6 +136,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthBlock authBlock;
+    private ApiKeyAuthFilter apiKeyAuthFilter;
+
+    // @Autowired
+    // private AuthFiltroApiKey authFiltroApiKey;
 
     /* ~ BEANS
     -------------------------------------------------------------- */
@@ -37,7 +148,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    /*~~(Migrate manually based on https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)~~>*/@Bean
+    /*~~(Migrate manually based on https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)~~>*/
+    @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception{
         return super.authenticationManagerBean();
     }
@@ -50,8 +162,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
      * @param auth usado para indicar la autenticacion por medio de la BD.
      * @throws Exception si existe un problema con la autenticacion.
      */
-    /*~~(Migrate manually based on https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)~~>*/@Override
-
+    /*~~(Migrate manually based on https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)~~>*/
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authBlock);
         auth.userDetailsService(userDetailsService).passwordEncoder(passEncoder());
@@ -71,11 +183,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/registrarse", "/iniciar", "/public")
                     .permitAll()
-                    .antMatchers("/home")
+                    .antMatchers("/apikey","/home")
                     .authenticated()
                     .anyRequest()
                     .permitAll()
-                    // .authenticated()
                 .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -84,6 +195,22 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .expiredUrl("/logoutforced");
 
         // Indicamos que usaremos un filtro
+        http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
+        // http.addFilterBefore(authFiltroApiKey, UsernamePasswordAuthenticationFilter.class);
     }
+    
+    
 } // fin de la clase de configuracion
+
+// @Bean
+    // SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    //     http
+    //     .authorizeHttpRequests()
+    //     .antMatchers("/registrarse", "/iniciar", "/public") .permitAll()
+    //     .antMatchers("/apikey","/iniciar","/home").authenticated()
+    //     .anyRequest().permitAll();
+    //     http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
+    //     http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
+    //     return http.build();
+    // }
