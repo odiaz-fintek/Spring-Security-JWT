@@ -42,7 +42,7 @@ public class AuthFiltroToken extends OncePerRequestFilter {
 
         String token = null;
         String username = null;
-        if (request.getRequestURI().startsWith("/home")) {
+        if (request.getRequestURI().startsWith("/apikey") || request.getRequestURI().startsWith("/home")) {
             // Extraemos el token de la cabecera
             if(headerAuth != null && headerAuth.startsWith("Bearer ")){
                 // Lo extraemos quitando el "Bearer " para solo tener el token

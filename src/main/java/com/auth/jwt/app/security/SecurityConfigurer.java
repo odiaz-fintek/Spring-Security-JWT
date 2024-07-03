@@ -2,98 +2,10 @@ package com.auth.jwt.app.security;
 
 import com.auth.jwt.app.filter.ApiKeyAuthFilter;
 
-// import com.auth.jwt.app.filter.AuthFiltroApiKey;
-// import com.auth.jwt.app.filter.AuthFiltroToken;
-// import com.auth.jwt.app.payload.AutenticacionApiKey;
-// import com.auth.jwt.app.security.service.MiUserDetailsService;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import org.springframework.security.authentication.AuthenticationManager;
-// import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-// import org.springframework.security.config.http.SessionCreationPolicy;
-// import org.springframework.security.core.authority.SimpleGrantedAuthority;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-// import org.springframework.security.web.SecurityFilterChain;
-// import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-// import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-// import java.util.Collections;
-
-// @Configuration
-// @EnableWebSecurity
-// public class SecurityConfigurer {
-
-//     /* ~ Autowired
-//     -------------------------------------------------------------- */
-//     @Autowired
-//     private MiUserDetailsService userDetailsService;
-
-//     @Autowired
-//     private AuthFiltroToken authFiltroToken;
-
-//     /* ~ BEANS
-//     -------------------------------------------------------------- */
-//     @Bean
-//     public BCryptPasswordEncoder passEncoder() {
-//         return new BCryptPasswordEncoder();
-//     }
-
-//     @Bean
-//     public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
-//         AuthenticationManagerBuilder authManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-//         authManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passEncoder());
-//         return authManagerBuilder.build();
-//     }
-
-//     @Bean
-//     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//         AuthFiltroApiKey filter = new AuthFiltroApiKey(new AntPathRequestMatcher("/api/**"));
-//         filter.setAuthenticationManager(authentication -> {
-//             String apiKey = (String) authentication.getPrincipal();
-//             String apiSecret = (String) authentication.getCredentials();
-
-//             if ("valid-api-key".equals(apiKey) && "valid-api-secret".equals(apiSecret)) {
-//                 return new AutenticacionApiKey(apiKey, apiSecret, Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
-//             } else {
-//                 authentication.setAuthenticated(false);
-//             }
-
-//             return authentication;
-//         });
-
-//         http
-//             .csrf().disable()
-//             .authorizeRequests(authorizeRequests ->
-//                 authorizeRequests
-//                     .antMatchers("/registrarse", "/iniciar", "/public").permitAll()
-//                     .anyRequest().authenticated()
-//             )
-//             .sessionManagement(sessionManagement ->
-//                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//             )
-//             .addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class)
-//             .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-
-//         return http.build();
-//     }
-// }
-
-
-
-
-
-
-
-
-
 // package com.auth.jwt.app.security;
 import com.auth.jwt.app.filter.AuthFiltroToken;
 // import com.auth.jwt.app.payload.AutenticacionApiKey;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
-// import com.auth.jwt.app.service.AuthBlock;
 import com.auth.jwt.app.security.service.AuthBlock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -136,6 +48,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthBlock authBlock;
+    @Autowired
     private ApiKeyAuthFilter apiKeyAuthFilter;
 
     // @Autowired
@@ -202,15 +115,3 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     
     
 } // fin de la clase de configuracion
-
-// @Bean
-    // SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    //     http
-    //     .authorizeHttpRequests()
-    //     .antMatchers("/registrarse", "/iniciar", "/public") .permitAll()
-    //     .antMatchers("/apikey","/iniciar","/home").authenticated()
-    //     .anyRequest().permitAll();
-    //     http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
-    //     http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
-    //     return http.build();
-    // }
