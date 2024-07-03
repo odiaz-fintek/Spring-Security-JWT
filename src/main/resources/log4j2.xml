@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
-<!--    <Appenders>-->
-<!--        &lt;!&ndash; Appender for general application logging &ndash;&gt;-->
-<!--        <RollingFile name="JsonFileAppender" fileName="logs/app-log.json"-->
-<!--                     filePattern="logs/app-log-%d{yyyy-MM-dd}-%i.json">-->
-<!--            <JsonLayout complete="false" compact="true" eventEol="true"/>-->
-<!--            <Policies>-->
-<!--                <SizeBasedTriggeringPolicy size="100MB"/>-->
-<!--                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>-->
-<!--            </Policies>-->
-<!--            <DefaultRolloverStrategy max="10"/>-->
-<!--        </RollingFile>-->
+   <Appenders>
+       &lt;!&ndash; Appender for general application logging &ndash;&gt;
+       <RollingFile name="JsonFileAppender" fileName="logs/app-log.json"
+                    filePattern="logs/app-log-%d{yyyy-MM-dd}-%i.json">
+           <JsonLayout complete="false" compact="true" eventEol="true"/>
+           <Policies>
+               <SizeBasedTriggeringPolicy size="100MB"/>
+               <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+           </Policies>
+           <DefaultRolloverStrategy max="10"/>
+       </RollingFile>
 
-<!--        &lt;!&ndash; Appender for error logging &ndash;&gt;-->
-<!--        <RollingFile name="ErrorFileAppender" fileName="logs/error-log.json"-->
-<!--                     filePattern="logs/error-log-%d{yyyy-MM-dd}-%i.json">-->
-<!--            <JsonLayout complete="false" compact="true" eventEol="true"/>-->
-<!--            <Policies>-->
-<!--                <SizeBasedTriggeringPolicy size="100MB"/>-->
-<!--                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>-->
-<!--            </Policies>-->
-<!--            <DefaultRolloverStrategy max="10"/>-->
-<!--        </RollingFile>-->
-<!--    </Appenders>-->
+       &lt;!&ndash; Appender for error logging &ndash;&gt;
+       <RollingFile name="ErrorFileAppender" fileName="logs/error-log.json"
+                    filePattern="logs/error-log-%d{yyyy-MM-dd}-%i.json">
+           <JsonLayout complete="false" compact="true" eventEol="true"/>
+           <Policies>
+               <SizeBasedTriggeringPolicy size="100MB"/>
+               <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+           </Policies>
+           <DefaultRolloverStrategy max="10"/>
+       </RollingFile>
+   </Appenders>
 
-<!--    <Loggers>-->
-<!--        <Root level="info">-->
-<!--            <AppenderRef ref="JsonFileAppender"/>-->
-<!--        </Root>-->
-<!--        <Logger name="HomeController" level="info" additivity="false">-->
-<!--            <AppenderRef ref="JsonFileAppender"/>-->
-<!--        </Logger>-->
-<!--        <Logger name="HomeControllerError" level="error" additivity="false">-->
-<!--            <AppenderRef ref="ErrorFileAppender"/>-->
-<!--        </Logger>-->
-<!--    </Loggers>-->
+   <Loggers>
+       <Root level="info">
+           <AppenderRef ref="JsonFileAppender"/>
+       </Root>
+       <Logger name="HomeController" level="info" additivity="false">
+           <AppenderRef ref="JsonFileAppender"/>
+       </Logger>
+       <Logger name="HomeControllerError" level="error" additivity="false">
+           <AppenderRef ref="ErrorFileAppender"/>
+       </Logger>
+   </Loggers>
 </Configuration>
