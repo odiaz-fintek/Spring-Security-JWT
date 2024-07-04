@@ -29,9 +29,7 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
         // Get the API key and secret from request headers
         String requestApiKey = request.getHeader("X-API-KEY");
-//        String requestApiSecret = request.getHeader("X-API-SECRET");
         if (request.getRequestURI().startsWith("/apikey") || request.getRequestURI().startsWith("/home")) {
-            // if (apiKey.equals(requestApiKey)) {
                 if (requestApiKey != null && usuarioService.buscarApikeyPorApikey(requestApiKey)) {
                 // Continue processing the request
                 filterChain.doFilter(request, response);

@@ -51,9 +51,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private ApiKeyAuthFilter apiKeyAuthFilter;
 
-    // @Autowired
-    // private AuthFiltroApiKey authFiltroApiKey;
-
     /* ~ BEANS
     -------------------------------------------------------------- */
     @Bean
@@ -110,7 +107,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         // Indicamos que usaremos un filtro
         http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
-        // http.addFilterBefore(authFiltroApiKey, UsernamePasswordAuthenticationFilter.class);
     }
     
     
