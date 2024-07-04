@@ -4,10 +4,14 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.auth.jwt.app.service.UsuarioService;
 
 import java.io.IOException;
 
@@ -15,10 +19,8 @@ import java.io.IOException;
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
     // Get the API key and secret from application.properties
-    @Value("${api.key}")
-    private String apiKey;
-//    @Value("${api.secret}")
-//    private String apiSecret;
+    @Autowired
+    private UsuarioService usuarioService;
     
     
     @Override
@@ -29,7 +31,8 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
         String requestApiKey = request.getHeader("X-API-KEY");
 //        String requestApiSecret = request.getHeader("X-API-SECRET");
         if (request.getRequestURI().startsWith("/apikey") || request.getRequestURI().startsWith("/home")) {
-            if (apiKey.equals(requestApiKey)) {
+            // if (apiKey.equals(requestApiKey)) {
+                if (requestApiKey != null && usuarioService.buscarApikeyPorApikey(requestApiKey)) {
                 // Continue processing the request
                 filterChain.doFilter(request, response);
             } else {

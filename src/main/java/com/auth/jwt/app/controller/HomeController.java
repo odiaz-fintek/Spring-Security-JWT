@@ -65,7 +65,9 @@ public class HomeController {
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
             // Generar apikey
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            usuario.setApikey(encoder.encode(usuario.getUsername() + usuario.getPassword() + SECRETO));
+            String apikey = encoder.encode(usuario.getUsername() + usuario.getPassword() + SECRETO);
+            usuario.setApikey(apikey);
+            // usuario.setApikey(encoder.encode(usuario.getUsername() + usuario.getPassword() + SECRETO));
 
             // Asignar role de user
             Role role = roleService.buscarRolePorId(3);
@@ -73,7 +75,8 @@ public class HomeController {
             usuario.setActivo(true);
             usuarioService.guardarUsuario(usuario);
             logger.info("User registered successfully");
-            return ResponseEntity.ok("Usuario registrado correctamente");
+            // return ResponseEntity.ok("Usuario registrado correctamente");
+            return ResponseEntity.ok(new AutenticacionResponse("apikey: " + apikey));
         } catch (Exception e) {
             logger.error("Error registering user: {}", e.getMessage(), e);
             return ResponseEntity.status(500).body("Error registrando usuario");
@@ -104,11 +107,17 @@ public class HomeController {
         }// fin de try~catch
 
         // Obtenemos los datos del usuario de la BD para construir el token
+        // final String  apikey = usuarioService.buscarApikeyPorUsuario(autLogin.getUsername());
+        final Usuario usuario = usuarioService.buscarApikeyPorUsuario(autLogin.getUsername());
+            if (usuario == null) {
+                return ResponseEntity.status(404).body("Usuario no encontrado");
+        }
+        final String apikey = usuario.getApikey();
         final UserDetails userDetails = miUserDetailsService.loadUserByUsername(autLogin.getUsername());
         final String token = jwtUtil.creatToken(userDetails);
 
         // Regresamos el token
-        return ResponseEntity.ok(new AutenticacionResponse(token));
+        return ResponseEntity.ok(new AutenticacionResponse("Token: " + token +"    Apikey: " + apikey));
     } // fin para iniciar sesion
 
     @PostMapping("/keep-alive")
