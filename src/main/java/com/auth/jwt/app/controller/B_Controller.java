@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/basic")
 public class B_Controller {
 
     private static final Logger logger = LoggerFactory.getLogger(B_Controller.class);

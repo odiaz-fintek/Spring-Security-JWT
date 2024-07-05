@@ -15,7 +15,7 @@ Content-Type: application/json
   "cantidad": 400,
   "fechaCreacion": "2024-07-03T00:00:00",
   "fechaActualizacion": "2024-07-03T00:00:00",
-  "usuarioId": 4
+  "usuarioId": 1
 }
 
 ###

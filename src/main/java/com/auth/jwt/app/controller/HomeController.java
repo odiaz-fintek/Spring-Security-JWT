@@ -71,7 +71,8 @@ public class HomeController {
             usuario.setActivo(true);
             usuarioService.guardarUsuario(usuario);
             logger.info("User registered successfully");
-            return ResponseEntity.ok(new AutenticacionResponse("apikey: " + apikey));
+            // return ResponseEntity.ok(new AutenticacionResponse("apikey: " + apikey));
+            return ResponseEntity.ok("Usuario registrado exitosamente");
         } catch (Exception e) {
             logger.error("Error registering user: {}", e.getMessage(), e);
             return ResponseEntity.status(500).body("Error registrando usuario");
@@ -110,7 +111,9 @@ public class HomeController {
         final String token = jwtUtil.creatToken(userDetails);
 
         // Regresamos el token
-        return ResponseEntity.ok(new AutenticacionResponse("Token: " + token +"    Apikey: " + apikey));
+        return ResponseEntity.ok(new AutenticacionResponse("Token: " + token +
+        "                   Apikey: " + apikey + 
+        "                   Basic: Acceso consedido"));
     } // fin para iniciar sesion
 
     @PostMapping("/keep-alive")
