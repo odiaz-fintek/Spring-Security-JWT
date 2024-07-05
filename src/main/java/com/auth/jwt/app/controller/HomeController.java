@@ -130,11 +130,11 @@ public class HomeController {
 
     /* ~ Rutas privadas (requieren token)
     ------------------------------------------------------------------------------- */
-    @GetMapping("/home")
+    /*@GetMapping("/home")
     public String userAuthenticated(){
         logger.info("Acceso a Home por usuario autenticado");
         return "Welcome";
-    }
+    }*/
 
     @GetMapping("/logoutforced")
     public String logoutForced() {

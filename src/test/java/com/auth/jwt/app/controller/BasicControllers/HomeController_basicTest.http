@@ -1,0 +1,5 @@
+###
+GET http://localhost:8081/basic/home
+
+###
+GET http://localhost:8081/basic/logoutforced

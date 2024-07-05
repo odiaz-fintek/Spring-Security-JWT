@@ -1,0 +1,93 @@
+### getAllProductos
+GET http://localhost:8081/apikey/productos
+
+### getProductoById
+GET http://localhost:8081/apikey/productos/{{id}}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "nombre": "",
+  "descripcion": "",
+  "precio": {},
+  "cantidad": 0,
+  "fechaCreacion": "",
+  "fechaActualizacion": "",
+  "usuarioId": 0
+}
+
+### createProducto
+POST http://localhost:8081/apikey/productos/create
+Content-Type: application/json
+
+{
+  "nombre": "Producto 1",
+  "descripcion": "Descripción del Producto 4",
+  "precio": 49.99,
+  "cantidad": 400,
+  "fechaCreacion": "2024-07-03T00:00:00",
+  "fechaActualizacion": "2024-07-03T00:00:00",
+  "usuarioId": 1
+}
+
+
+### updateProducto
+PUT http://localhost:8081/apikey/productos/update/{{id}}
+Content-Type: application/json
+
+{
+  "nombre": "",
+  "descripcion": "",
+  "precio": {},
+  "cantidad": 0,
+  "fechaCreacion": "",
+  "fechaActualizacion": "",
+  "usuarioId": 0
+}
+
+### deleteProducto
+DELETE http://localhost:8081/apikey/productos/delete/{{id}}
+
+
+#-----------------------------------------------------------
+###
+POST http://localhost:8081/apikey/productos/create
+Content-Type: application/json
+
+{
+  "nombre": "Producto 1",
+  "descripcion": "Descripción del Producto 1",
+  "precio": 19.99,
+  "cantidad": 100,
+  "fechaCreacion": "2024-07-03T00:00:00",
+  "fechaActualizacion": "2024-07-03T00:00:00",
+  "usuarioId": 1
+}
+
+###
+POST http://localhost:8081/apikey/productos/create
+Content-Type: application/json
+
+{
+  "nombre": "Producto 2",
+  "descripcion": "Descripción del Producto 2",
+  "precio": 29.99,
+  "cantidad": 200,
+  "fechaCreacion": "2024-07-03T00:00:00",
+  "fechaActualizacion": "2024-07-03T00:00:00",
+  "usuarioId": 2
+}
+
+###
+POST http://localhost:8081/apikey/productos/create
+Content-Type: application/json
+
+{
+  "nombre": "Producto 3",
+  "descripcion": "Descripción del Producto 3",
+  "precio": 39.99,
+  "cantidad": 300,
+  "fechaCreacion": "2024-07-03T00:00:00",
+  "fechaActualizacion": "2024-07-03T00:00:00",
+  "usuarioId": 3
+}

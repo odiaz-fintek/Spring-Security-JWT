@@ -1,22 +1,21 @@
-package com.auth.jwt.app.controller;
+package com.auth.jwt.app.controller.ApikeyControllers;
 
+import com.auth.jwt.app.entity.Cliente;
 import com.auth.jwt.app.payload.DTOCrearCliente;
 import com.auth.jwt.app.payload.DTODeleteCliente;
 import com.auth.jwt.app.payload.DTOUpdateClient;
-import com.auth.jwt.app.entity.Cliente;
 import com.auth.jwt.app.payload.ErrorResponse;
 import com.auth.jwt.app.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/clientes")
-public class ClienteController {
+@RequestMapping("/apikey/clientes")
+public class ClienteController_apikey {
 
     @Autowired
     private ClienteService clienteService;

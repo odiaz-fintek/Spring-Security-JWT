@@ -9,9 +9,9 @@ POST http://localhost:8081/registrarse
 Content-Type: application/json
 
 {
-  "username": "",
-  "correo": "",
-  "password": ""
+  "username": "jose3",
+  "correo": "jose@prueba",
+  "password": "455"
 }
 
 ### /iniciar

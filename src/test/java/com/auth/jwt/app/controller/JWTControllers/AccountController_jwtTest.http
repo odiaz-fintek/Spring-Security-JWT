@@ -1,0 +1,218 @@
+# PAGINA PUBLICA
+GET http://localhost:8081/public
+###
+
+#/registrarse
+POST http://localhost:8081/registrarse
+Content-Type: application/json
+
+{
+  "username": "ada",
+  "correo": "acfa@agmail.com",
+  "password": "123"
+}
+
+###
+#/iniciar
+POST http://localhost:8081/iniciar
+Content-Type: application/json
+
+{
+  "username": "ada",
+  "password": "123"
+}
+
+//-------------------------------------------------
+
+###
+GET /apikey/accounts
+
+### getAccountById
+GET http://localhost:8081/JWT/accounts/{{accountId}}
+Content-Type: application/json
+
+### createAccount
+POST http://localhost:8081/JWT/accounts/createacc
+Content-Type: application/json
+
+{
+  "accountId": "ACC123456789",
+  "active": true,
+  "type": "Savings",
+  "account": "Main Account",
+  "division": "Finance",
+  "sicCode": "123456",
+  "parentId": "PAR123456789",
+  "description": "Primary account for transactions",
+  "addressId": "ADDR12345678",
+  "shippingId": "SHIP12345678",
+  "region": "North",
+  "mainPhone": "123-456-7890",
+  "alternatePhone": "098-765-4321",
+  "fax": "111-222-3333",
+  "tollFree": "800-123-4567",
+  "tollFree2": "800-987-6543",
+  "otherPhone1": "222-333-4444",
+  "otherPhone2": "555-666-7777",
+  "otherPhone3": "888-999-0000",
+  "email": "example@example.com",
+  "emailType": "Work",
+  "webAddress": "http://example.com",
+  "secCodeId": "SEC123456789",
+  "revenue": 12345678.1234,
+  "employees": 500,
+  "industry": "Banking",
+  "creditRating": "AAA",
+  "notes": "This is a test note.",
+  "status": "Active",
+  "accountManagerId": "AM123456789",
+  "regionalManagerId": "RM123456789",
+  "divisionalManagerId": "DM123456789",
+  "nationalAccount": "Y",
+  "targetAccount": "N",
+  "territory": "West",
+  "createUser": "USR123456789",
+  "modifyUser": "USR987654321",
+  "createDate": "2024-07-04T12:34:56Z",
+  "modifyDate": "2024-07-04T12:34:56Z",
+  "accountUc": "ACC123UC",
+  "aka": "Also Known As",
+  "currencyCode": "USD",
+  "internalAccountNo": "INT1234567890",
+  "externalAccountNo": "EXT1234567890",
+  "parentAccountNo": "PAR1234567890",
+  "alternateKeyPrefix": "AKP",
+  "alternateKeySuffix": "AKS",
+  "defaultTicketSecCodeId": "DT123456789",
+  "notifyDefects": "Y",
+  "notifyOnClose": "N",
+  "notifyOnStatus": "Y",
+  "shortNotes": "These are short notes.",
+  "userField1": "User Field 1",
+  "userField2": "User Field 2",
+  "userField3": "User Field 3",
+  "userField4": "User Field 4",
+  "userField5": "User Field 5",
+  "userField6": "User Field 6",
+  "userField7": "User Field 7",
+  "userField8": "User Field 8",
+  "userField9": "User Field 9",
+  "userField10": "User Field 10",
+  "campaignId": "CAM123456789",
+  "doNotSolicit": "N",
+  "score": "95",
+  "ticker": "TICK123",
+  "subtype": "Subtype A",
+  "leadSourceId": "LS123456789",
+  "importSource": "Import Source",
+  "engineerId": "ENG123456789",
+  "salesEngineerId": "SE123456789",
+  "relationship": 1,
+  "lastHistoryBy": "LHB123456789",
+  "lastHistoryDate": "2024-07-04T12:34:56Z",
+  "businessDescription": "Business description goes here.",
+  "webAddress2": "http://example2.com",
+  "webAddress3": "http://example3.com",
+  "webAddress4": "http://example4.com",
+  "globalSyncId": "GS1234567890",
+  "appId": "APP123456789",
+  "tick": 42,
+  "lastErpSyncUpdate": "2024-07-04T12:34:56Z",
+  "primaryOperatingCompId": "POC123456789",
+  "promotedToAccounting": "Y",
+  "createSource": "Source Example"
+}
+
+### updateAccount
+PUT http://localhost:8081/JWT/accounts/ACC123456789
+Content-Type: application/json
+
+{
+  "active": true,
+  "type": "jojo",
+  "account": "Main Account",
+  "division": "Finance",
+  "sicCode": "123456",
+  "parentId": "PAR123456789",
+  "description": "Primary account for transactions",
+  "addressId": "ADDR12345678",
+  "shippingId": "SHIP12345678",
+  "region": "North",
+  "mainPhone": "123-456-7890",
+  "alternatePhone": "098-765-4321",
+  "fax": "111-222-3333",
+  "tollFree": "800-123-4567",
+  "tollFree2": "800-987-6543",
+  "otherPhone1": "222-333-4444",
+  "otherPhone2": "555-666-7777",
+  "otherPhone3": "888-999-0000",
+  "email": "example@example.com",
+  "emailType": "Work",
+  "webAddress": "http://example.com",
+  "secCodeId": "SEC123456789",
+  "revenue": 12345678.1234,
+  "employees": 500,
+  "industry": "Banking",
+  "creditRating": "AAA",
+  "notes": "This is a test note.",
+  "status": "Active",
+  "accountManagerId": "AM123456789",
+  "regionalManagerId": "RM123456789",
+  "divisionalManagerId": "DM123456789",
+  "nationalAccount": "Y",
+  "targetAccount": "N",
+  "territory": "West",
+  "createUser": "USR123456789",
+  "modifyUser": "USR987654321",
+  "createDate": "2024-07-04T12:34:56Z",
+  "modifyDate": "2024-07-04T12:34:56Z",
+  "accountUc": "ACC123UC",
+  "aka": "Also Known As",
+  "currencyCode": "USD",
+  "internalAccountNo": "INT1234567890",
+  "externalAccountNo": "EXT1234567890",
+  "parentAccountNo": "PAR1234567890",
+  "alternateKeyPrefix": "AKP",
+  "alternateKeySuffix": "AKS",
+  "defaultTicketSecCodeId": "DT123456789",
+  "notifyDefects": "Y",
+  "notifyOnClose": "N",
+  "notifyOnStatus": "Y",
+  "shortNotes": "These are short notes.",
+  "userField1": "User Field 1",
+  "userField2": "User Field 2",
+  "userField3": "User Field 3",
+  "userField4": "User Field 4",
+  "userField5": "User Field 5",
+  "userField6": "User Field 6",
+  "userField7": "User Field 7",
+  "userField8": "User Field 8",
+  "userField9": "User Field 9",
+  "userField10": "User Field 10",
+  "campaignId": "CAM123456789",
+  "doNotSolicit": "N",
+  "score": "95",
+  "ticker": "TICK123",
+  "subtype": "Subtype A",
+  "leadSourceId": "LS123456789",
+  "importSource": "Import Source",
+  "engineerId": "ENG123456789",
+  "salesEngineerId": "SE123456789",
+  "relationship": 1,
+  "lastHistoryBy": "LHB123456789",
+  "lastHistoryDate": "2024-07-04T12:34:56Z",
+  "businessDescription": "Business description goes here.",
+  "webAddress2": "http://example2.com",
+  "webAddress3": "http://example3.com",
+  "webAddress4": "http://example4.com",
+  "globalSyncId": "GS1234567890",
+  "appId": "APP123456789",
+  "tick": 42,
+  "lastErpSyncUpdate": "2024-07-04T12:34:56Z",
+  "primaryOperatingCompId": "POC123456789",
+  "promotedToAccounting": "Y",
+  "createSource": "Source Example"
+}
+
+### deleteAccount
+DELETE http://localhost:8081/JWT/accounts/delete/{{accountId}}

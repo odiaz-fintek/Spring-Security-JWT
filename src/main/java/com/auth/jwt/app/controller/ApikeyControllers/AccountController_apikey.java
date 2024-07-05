@@ -1,4 +1,4 @@
-package com.auth.jwt.app.controller;
+package com.auth.jwt.app.controller.ApikeyControllers;
 
 import com.auth.jwt.app.entity.Account;
 import com.auth.jwt.app.service.AccountService;
@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/accounts")
-public class AccountController {
+@RequestMapping("/apikey/accounts")
+public class AccountController_apikey {
 
     private final AccountService accountService;
 
     @Autowired
-    public AccountController(AccountService accountService) {
+    public AccountController_apikey(AccountService accountService) {
         this.accountService = accountService;
     }
 

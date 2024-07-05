@@ -1,4 +1,4 @@
-package com.auth.jwt.app.controller;
+package com.auth.jwt.app.controller.ApikeyControllers;
 
 import com.auth.jwt.app.entity.Producto;
 import com.auth.jwt.app.entity.Usuario;
@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/productos")
-public class ProductoController {
-
-    @Autowired
-    private ProductoRepository productoRepository;
+@RequestMapping("/apikey/productos")
+public class ProductoController_apikey {
 
     @Autowired
     private IProductoService productoService;
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @Autowired
     private IUsuarioService usuarioService;
