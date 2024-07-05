@@ -1,0 +1,36 @@
+###
+GET http://localhost:8081/api/productos
+
+###
+GET http://localhost:8081/api/productos/{{id}}
+
+###
+POST http://localhost:8081/api/productos/create
+Content-Type: application/json
+
+{
+  "nombre": "Producto 4",
+  "descripcion": "Descripción del Producto 4",
+  "precio": 49.99,
+  "cantidad": 400,
+  "fechaCreacion": "2024-07-03T00:00:00",
+  "fechaActualizacion": "2024-07-03T00:00:00",
+  "usuarioId": 4
+}
+
+###
+PUT http://localhost:8081/api/productos/update/{{id}}
+Content-Type: application/json
+
+{
+  "nombre": "",
+  "descripcion": "",
+  "precio": {},
+  "cantidad": 0,
+  "fechaCreacion": "",
+  "fechaActualizacion": "",
+  "usuarioId": 0
+}
+
+###
+DELETE http://localhost:8081/api/productos/delete/{{id}}
