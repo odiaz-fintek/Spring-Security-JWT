@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
-   <Appenders>
+   <!-- <Appenders>
        &lt;!&ndash; Appender for general application logging &ndash;&gt;
        <RollingFile name="JsonFileAppender" fileName="logs/app-log.json"
                     filePattern="logs/app-log-%d{yyyy-MM-dd}-%i.json">
@@ -34,5 +34,5 @@
        <Logger name="HomeControllerError" level="error" additivity="false">
            <AppenderRef ref="ErrorFileAppender"/>
        </Logger>
-   </Loggers>
+   </Loggers> -->
 </Configuration>

@@ -111,4 +111,20 @@ public class UsuarioService implements IUsuarioService {
         return false;
     }
 
+    @Override @Transactional(readOnly = true)
+    public Usuario buscarApikeyPorUsuario(String username) {
+        // Usuario api_key = usuarioRepository.buscarApikeyPorUsername(username).orElse(null);
+        return usuarioRepository.buscarApikeyPorUsername(username).orElse(null);
+    }
+
+    @Override @Transactional(readOnly = true)
+    public Boolean buscarApikeyPorApikey(String apikey) {
+        return usuarioRepository.buscarApikeyPorApikey(apikey);
+        // if (usuarioRepository.buscarApikeyPorApikey(api_key)) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+    }
+
 } // fin de la implementacion de los servicios

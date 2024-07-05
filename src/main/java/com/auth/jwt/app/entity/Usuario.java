@@ -13,6 +13,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Esta clase representa a la tabla de la BD llamada <b>usuarios</b>
  * en la cual las propiedades definidas aqui seran mapeadas a la tabla.
@@ -60,6 +63,9 @@ public class Usuario implements Serializable {
     private Date lockTime;
 
     /*----------References de usuarios y rol -----------------*/
+    @NotNull @Getter @Setter
+    private String apikey;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "usuarios_roles",
@@ -138,4 +144,5 @@ public class Usuario implements Serializable {
     public void agregarRoleALista(Role role){
         this.roles.add(role);
     }
+
 } // fin de la clase entidad

@@ -30,4 +30,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("SELECT u FROM Usuario u WHERE u.correo = ?1")
     Optional<Usuario> buscarUsuarioPorCorreo(String correo);
 
+    @Query("SELECT u FROM Usuario u WHERE u.username = ?1")
+    Optional<Usuario> buscarApikeyPorUsername(String username);
+
+    @Query("SELECT COUNT(u) > 0 FROM Usuario u WHERE u.apikey = ?1")
+    boolean buscarApikeyPorApikey(String apikey);
+
+    // @Query("SELECT apikey FROM Usuario u WHERE u.username = ?1")
+    // Optional<Usuario> buscarApikeyPorUsername(String username);
+
+    // @Query("SELECT apikey FROM Usuario u WHERE u.apikey = ?1")
+    // Optional<Usuario> buscarApikeyPorApikey(String apikey);
+
 } // fin de la clase
