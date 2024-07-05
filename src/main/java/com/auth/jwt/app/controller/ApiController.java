@@ -39,7 +39,7 @@ public class ApiController {
     @Autowired
     private IUsuarioService usuarioService;
 
-    @GetMapping
+    @GetMapping("/productos")
     public List<Producto> getAllProductos() {
         return productoRepository.findAll();
     }
