@@ -1,0 +1,30 @@
+# PRUEBA DE Controlador home
+
+# NO PROTEGIDO
+###### /public
+GET http://localhost:8081/public
+
+### /registrarse
+POST http://localhost:8081/registrarse
+Content-Type: application/json
+
+{
+  "username": "",
+  "correo": "",
+  "password": ""
+}
+
+### /iniciar
+POST http://localhost:8081/iniciar
+Content-Type: application/json
+
+{
+  "username": "jose3",
+  "password": "455",
+  "token": "my-secret-token"
+}
+> {% client.global.set("auth_token", response.body.token); %}
+
+### /home
+GET http://localhost:8081/home
+Authorization: Bearer {{auth_token}}

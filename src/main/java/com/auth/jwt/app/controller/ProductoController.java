@@ -16,10 +16,10 @@ import java.util.List;
 public class ProductoController {
 
     @Autowired
-    private IProductoService productoService;
+    private ProductoRepository productoRepository;
 
     @Autowired
-    private ProductoRepository productoRepository;
+    private IProductoService productoService;
 
     @Autowired
     private IUsuarioService usuarioService;

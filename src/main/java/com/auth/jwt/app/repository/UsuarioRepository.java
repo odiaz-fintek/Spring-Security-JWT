@@ -3,6 +3,7 @@ package com.auth.jwt.app.repository;
 import com.auth.jwt.app.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
  * Este repositorio extiende de {@link JpaRepository} que permite usar los metodos
  * para las operaciones basicas de un CRUD que se haran hacia la tabla de <b>usuarios</b>.
  */
+@Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     /**

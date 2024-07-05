@@ -62,10 +62,10 @@ public class Usuario implements Serializable {
     @Getter @Setter
     private Date lockTime;
 
-    /*----------References de usuarios y rol -----------------*/
     @NotNull @Getter @Setter
     private String apikey;
 
+    /*----------References de usuarios y rol -----------------*/
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "usuarios_roles",
