@@ -34,6 +34,7 @@ Content-Type: application/json
 ### createAccount
 POST http://localhost:8081/JWT/accounts/createacc
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb3NlMyIsImV4cCI6MTcyMDIwMzE5OCwiaWF0IjoxNzIwMjAyODk4fQ qwKnt4cinRdp1pmCvqhDydVZQMZPUxSwKQGdy5jFoBZFeVHMjrwBdDwIbAs3WvZI5IhDAxxEQb-6bhhcZxafzg
 
 {
   "accountId": "ACC123456789",
