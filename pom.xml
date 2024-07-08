@@ -10,7 +10,7 @@
     </parent>
     <groupId>pa.com.pagayaa</groupId>
     <artifactId>pa.com.pagayaa.security.app</artifactId>
-    <version>1.0.1-seuz</version>
+    <version>2.0.1-Platon</version>
     <name>PagaYaa : ${project.version} - PayaYaa Security</name>
     <description>PayaYaa Proyecto de Login</description>
     <packaging>jar</packaging>
