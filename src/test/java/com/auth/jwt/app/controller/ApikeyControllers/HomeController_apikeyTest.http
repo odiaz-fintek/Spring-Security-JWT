@@ -1,0 +1,6 @@
+###
+GET http://localhost:8081/apikey/home
+X-API-KEY: $2a$10$vhFkxlF6th2HpO//lNxEre9y0oDDKD6x5ny/RYGYzYh6obMkPjsbS
+
+###
+GET http://localhost:8081/apikey/logoutforced

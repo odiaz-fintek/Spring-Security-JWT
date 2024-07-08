@@ -1,0 +1,126 @@
+### crearCliente
+POST http://localhost:8081/JWT/clientes/crear
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb3NlMyIsImV4cCI6MTcyMDIwMzE5OCwiaWF0IjoxNzIwMjAyODk4fQ qwKnt4cinRdp1pmCvqhDydVZQMZPUxSwKQGdy5jFoBZFeVHMjrwBdDwIbAs3WvZI5IhDAxxEQb-6bhhcZxafzg
+
+{
+  "firstname": "Juan",
+  "middlename": "Carlos",
+  "lastname": "Pérez",
+  "birthday": "1990-01-01",
+  "email": "juan.perez@example.com",
+  "mobile": "555-1234",
+  "homephone": "555-5678",
+  "nationality": "Mexican"
+}
+
+### actualizarCliente
+PUT http://localhost:8081/JWT/clientes/actualizar/2
+Content-Type: application/json
+
+{
+  "firstname": "",
+  "middlename": "prueba2",
+  "lastname": "",
+  "birthday": "",
+  "createDate": "",
+  "email": "",
+  "mobile": "",
+  "homephone": "",
+  "nationality": "",
+  "secCodeId": ""
+}
+
+### eliminarCliente
+POST http://localhost:8081/JWT/clientes/eliminar
+Content-Type: application/json
+
+{
+  "clienteid": 0
+}
+
+### findByIdClient
+GET http://localhost:8081/JWT/clientes/findby-Id/{{id}}
+
+### findByNameClient
+GET http://localhost:8081/JWT/clientes/findby-nombre/{{nombre}}
+
+### findByStatusClient
+GET http://localhost:8081/JWT/clientes/findby-estado/{{estado}}
+
+
+-----------------------------------------
+POST http://localhost:8081/clientes/crear
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "firstname": "Juan",
+  "middlename": "Carlos",
+  "lastname": "Pérez",
+  "birthday": "1990-01-01",
+  "email": "juan.perez@example.com",
+  "mobile": "555-1234",
+  "homephone": "555-5678",
+  "nationality": "Mexican"
+}
+
+POST http://localhost:8081/clientes/crear
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "firstname": "Ana",
+  "middlename": "María",
+  "lastname": "Gómez",
+  "birthday": "1985-05-15",
+  "email": "ana.gomez@example.com",
+  "mobile": "555-8765",
+  "homephone": "555-4321",
+  "nationality": "Colombian"
+}
+
+POST http://localhost:8081/clientes/crear
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "firstname": "Luis",
+  "middlename": "Alberto",
+  "lastname": "Martínez",
+  "birthday": "1992-08-22",
+  "email": "luis.martinez@example.com",
+  "mobile": "555-5678",
+  "homephone": "555-8765",
+  "nationality": "Argentinian"
+}
+
+POST http://localhost:8081/clientes/crear
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "firstname": "María",
+  "middlename": "Fernanda",
+  "lastname": "Rodríguez",
+  "birthday": "1995-12-30",
+  "email": "maria.rodriguez@example.com",
+  "mobile": "555-6789",
+  "homephone": "555-9876",
+  "nationality": "Peruvian"
+}
+
+POST http://localhost:8081/clientes/crear
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "firstname": "Carlos",
+  "middlename": "Eduardo",
+  "lastname": "Hernández",
+  "birthday": "1988-03-10",
+  "email": "carlos.hernandez@example.com",
+  "mobile": "555-7890",
+  "homephone": "555-6789",
+  "nationality": "Chilean"
+}

@@ -7,13 +7,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 /**
  * Clase que implementa los metodos de la interfaz {@link IUsuarioService} del servicio para
  * usuarios.
  */
 @Service
 public class UsuarioService implements IUsuarioService {
+
+    /*
+        maneja los intentos de inicio de sesión y el bloqueo de cuenta.
+    */
+    public static final int MAX_FAILED_ATTEMPTS = 3;
+    //    private static final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000; // 24 horas
+    private static final long LOCK_TIME_DURATION = 3 * 60 * 1000; // 3 minutos en milisegundos
 
     /**
      * Inyeccion para acceder a los metodos del repositorio
@@ -55,6 +61,70 @@ public class UsuarioService implements IUsuarioService {
     @Transactional(readOnly = false)
     public void eliminarUsuarioPorId(Integer idUsuario) {
         usuarioRepository.deleteById(idUsuario);
+    }
+
+    /* ~ Manejo de intentos
+    ==================================== */
+
+    /*
+        Servicios que maneja la cantidad de intentos
+        bloquea la cuenta
+        desbloquea la cuenta
+    */
+    public void increaseFailedAttempts(Usuario usuario) {
+        int newFailAttempts = usuario.getFailedAttempt() + 1;
+        usuario.setFailedAttempt(newFailAttempts);
+
+        if (newFailAttempts >= MAX_FAILED_ATTEMPTS) {
+            lock(usuario);
+        } else {
+            usuarioRepository.save(usuario);
+        }
+    }
+
+    public void resetFailedAttempts(String username) {
+        Usuario usuario = buscarUsuarioPorUsername(username);
+        if (usuario != null) {
+            usuario.setFailedAttempt(0);
+            usuarioRepository.save(usuario);
+        }
+    }
+
+    public void lock(Usuario usuario) {
+        usuario.setAccountNonLocked(false);
+        usuario.setLockTime(new java.sql.Date(System.currentTimeMillis()));
+        usuarioRepository.save(usuario);
+    }
+
+    public boolean unlockWhenTimeExpired(Usuario usuario) {
+        long lockTimeInMillis = usuario.getLockTime().getTime();
+        long currentTimeInMillis = System.currentTimeMillis();
+
+        if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
+            usuario.setAccountNonLocked(true);
+            usuario.setLockTime(null);
+            usuario.setFailedAttempt(0);
+            usuarioRepository.save(usuario);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override @Transactional(readOnly = true)
+    public Usuario buscarApikeyPorUsuario(String username) {
+        // Usuario api_key = usuarioRepository.buscarApikeyPorUsername(username).orElse(null);
+        return usuarioRepository.buscarApikeyPorUsername(username).orElse(null);
+    }
+
+    @Override @Transactional(readOnly = true)
+    public Boolean buscarApikeyPorApikey(String apikey) {
+        return usuarioRepository.buscarApikeyPorApikey(apikey);
+        // if (usuarioRepository.buscarApikeyPorApikey(api_key)) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     }
 
 } // fin de la implementacion de los servicios
