@@ -1,0 +1,48 @@
+### crearCliente
+POST http://localhost:8081/basic/clientes/crear
+Content-Type: application/json
+
+{
+  "firstname": "",
+  "middlename": "",
+  "lastname": "",
+  "birthday": "",
+  "email": "",
+  "mobile": "",
+  "homephone": "",
+  "nationality": ""
+}
+
+### actualizarCliente
+PUT http://localhost:8081/basic/clientes/actualizar/{{id}}
+Content-Type: application/json
+
+{
+  "firstname": "",
+  "middlename": "",
+  "lastname": "",
+  "birthday": "",
+  "createDate": "",
+  "email": "",
+  "mobile": "",
+  "homephone": "",
+  "nationality": "",
+  "secCodeId": ""
+}
+
+### eliminarCliente
+POST http://localhost:8081/basic/clientes/eliminar
+Content-Type: application/json
+
+{
+  "clienteid": 0
+}
+
+### findByIdClient
+GET http://localhost:8081/basic/clientes/findby-Id/{{id}}
+
+### findByNameClient
+GET http://localhost:8081/basic/clientes/findby-nombre/{{nombre}}
+
+### findByStatusClient
+GET http://localhost:8081/basic/clientes/findby-estado/{{estado}}

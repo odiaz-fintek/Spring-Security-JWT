@@ -1,0 +1,48 @@
+### crearCliente
+POST http://localhost:8081/apikey/clientes/crear
+Content-Type: application/json
+
+{
+  "firstname": "",
+  "middlename": "",
+  "lastname": "",
+  "birthday": "",
+  "email": "",
+  "mobile": "",
+  "homephone": "",
+  "nationality": ""
+}
+
+### actualizarCliente
+PUT http://localhost:8081/apikey/clientes/actualizar/{{id}}
+Content-Type: application/json
+
+{
+  "firstname": "",
+  "middlename": "",
+  "lastname": "",
+  "birthday": "",
+  "createDate": "",
+  "email": "",
+  "mobile": "",
+  "homephone": "",
+  "nationality": "",
+  "secCodeId": ""
+}
+
+### eliminarCliente
+POST http://localhost:8081/apikey/clientes/eliminar
+Content-Type: application/json
+
+{
+  "clienteid": 0
+}
+
+### findByIdClient
+GET http://localhost:8081/apikey/clientes/findby-Id/{{id}}
+
+### findByNameClient
+GET http://localhost:8081/apikey/clientes/findby-nombre/{{nombre}}
+
+### findByStatusClient
+GET http://localhost:8081/apikey/clientes/findby-estado/{{estado}}

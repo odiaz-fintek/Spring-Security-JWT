@@ -1,10 +1,20 @@
 package com.auth.jwt.app.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Esta clase representa a la tabla de la BD llamada <b>usuarios</b>
@@ -33,8 +43,29 @@ public class Usuario implements Serializable {
     @NotNull
     private String password;
 
+    @Column(length = 512)
+    @Getter @Setter
+    private String token;
+
+    @Getter @Setter
+    private LocalDateTime tokenExpirationDate;
+
     private boolean activo;
 
+    /* Conteno de intentos*/
+    @Getter @Setter
+    private boolean accountNonLocked = true;
+
+    @Getter @Setter
+    private int failedAttempt = 0;
+
+    @Getter @Setter
+    private Date lockTime;
+
+    @NotNull @Getter @Setter
+    private String apikey;
+
+    /*----------References de usuarios y rol -----------------*/
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "usuarios_roles",
@@ -42,6 +73,23 @@ public class Usuario implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "id_role")}
     )
     private List<Role> roles;
+    /*----------References de usuarios y producto -----------------*/
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "usuario_producto",
+            joinColumns = {@JoinColumn(name = "usuario_id")},
+            inverseJoinColumns = {@JoinColumn(name = "producto_id")}
+    )
+    private Set<Producto> productos = new HashSet<>();
+    /*
+    *   Set es una colección que no permite elementos duplicados
+    *   Usuario no tenga el mismo Producto asociado más de una vez.
+    *
+    *   HashSet es una implementación de la interfaz Set que utiliza
+    *   una tabla hash para almacenar los elementos.
+    *
+    * */
+
 
     /* ~ Metodos
     ==================================== */
@@ -96,4 +144,5 @@ public class Usuario implements Serializable {
     public void agregarRoleALista(Role role){
         this.roles.add(role);
     }
+
 } // fin de la clase entidad

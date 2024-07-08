@@ -57,4 +57,7 @@ public interface IUsuarioService {
      */
     void eliminarUsuarioPorId(Integer idUsuario);
 
+    Usuario buscarApikeyPorUsuario(String username);
+
+    Boolean buscarApikeyPorApikey(String apikey);
 } // fin de la interface de servicio

@@ -1,0 +1,5 @@
+###
+GET http://localhost:8081/JWT/home
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb3NlMyIsImV4cCI6MTcyMDIwMzE5OCwiaWF0IjoxNzIwMjAyODk4fQ qwKnt4cinRdp1pmCvqhDydVZQMZPUxSwKQGdy5jFoBZFeVHMjrwBdDwIbAs3WvZI5IhDAxxEQb-6bhhcZxafzg
+###
+GET http://localhost:8081/JWT/logoutforced
