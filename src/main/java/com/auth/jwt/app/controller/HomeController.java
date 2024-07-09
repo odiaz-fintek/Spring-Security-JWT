@@ -21,9 +21,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 @RestController
 public class HomeController {
 
@@ -113,19 +110,19 @@ public class HomeController {
         // Regresamos el token
         return ResponseEntity.ok(new AutenticacionResponse("Token: " + token +
         "                   Apikey: " + apikey + 
-        "                   Basic: Acceso consedido"));
+        "                   Basic: Acceso concedido"));
     } // fin para iniciar sesion
 
-    @PostMapping("/keep-alive")
-    public ResponseEntity<?> keepAlive(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.setMaxInactiveInterval(300); // Reset to 5 minutes (300 seconds)
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build(); // Handle session not found
-        }
-    }
+    // @PostMapping("/keep-alive")
+    // public ResponseEntity<?> keepAlive(HttpServletRequest request) {
+    //     HttpSession session = request.getSession(false);
+    //     if (session != null) {
+    //         session.setMaxInactiveInterval(300); // Reset to 5 minutes (300 seconds)
+    //         return ResponseEntity.ok().build();
+    //     } else {
+    //         return ResponseEntity.notFound().build(); // Handle session not found
+    //     }
+    // }
 
 
     /* ~ Rutas privadas (requieren token)

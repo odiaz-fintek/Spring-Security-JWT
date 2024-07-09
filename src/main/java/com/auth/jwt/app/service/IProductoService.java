@@ -2,7 +2,6 @@ package com.auth.jwt.app.service;
 
 import com.auth.jwt.app.entity.Producto;
 
-import java.util.List;
 
 public interface IProductoService {
 
