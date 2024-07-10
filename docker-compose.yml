@@ -13,20 +13,20 @@ services:
     volumes:
       - db-data:/var/lib/mysql
 
-#  app:
-#    build: .
-#    container_name: spring-app
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/jpa_db
-#      SPRING_DATASOURCE_USERNAME: root
-#      SPRING_DATASOURCE_PASSWORD: password
-#      TOKEN_API_KEY: sprgboot
-#      TOKEN_PALABRA_SECRETA: github
-#      SERVER_PORT: 8081
-#    ports:
-#      - "8081:8081"
-#    depends_on:
-#      - db
+  app:
+    build: .
+    container_name: spring-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/jpa_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      TOKEN_API_KEY: sprgboot
+      TOKEN_PALABRA_SECRETA: github
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
 
 volumes:
   db-data:

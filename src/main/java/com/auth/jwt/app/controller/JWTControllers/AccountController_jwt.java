@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/JWT/accounts")
+@RequestMapping("/jwt/accounts")
 public class AccountController_jwt {
 
     private final AccountService accountService;

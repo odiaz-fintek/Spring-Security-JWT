@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/JWT/clientes")
+@RequestMapping("/jwt/clientes")
 public class ClienteController_jwt {
 
     @Autowired
