@@ -16,6 +16,11 @@ public class HomeController_apikey {
         return "Welcome";
     }
 
+    @GetMapping("/check")
+    public String testEndpoint() {
+        return "Access granted to secure endpoint!";
+    }
+
     @GetMapping("/logoutforced")
     public String logoutForced() {
         logger.info("Logout de usuario");
