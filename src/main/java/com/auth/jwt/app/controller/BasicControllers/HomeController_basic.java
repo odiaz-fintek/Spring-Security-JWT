@@ -26,29 +26,9 @@ public class HomeController_basic {
 
     @GetMapping("/home")
     public ResponseEntity<?> userAuthenticated(@RequestBody AutenticacionLogin autLogin) {
-        try {
-            authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(autLogin.getUsername(), autLogin.getPassword())
-            );
-
-            logger.info("Acceso a Home por usuario autenticado");
-            return ResponseEntity.ok("Welcome to the home page!");
-
-        } catch (BadCredentialsException ex) {
-            logger.error("Error logging in: {}", ex.getMessage(), ex);
-            return ResponseEntity.status(401).body("Error en el username o contraseña: " + ex.getMessage());
-        } catch (LockedException ex) {
-            logger.error("Account is locked: {}", ex.getMessage(), ex);
-            return ResponseEntity.status(403).body("Su cuenta está bloqueada. Por favor, intente más tarde: " + ex.getMessage());
-        } catch (Exception ex) {
-            logger.error("Unexpected error: {}", ex.getMessage(), ex);
-            return ResponseEntity.status(500).body("Error en el usuario o contraseña: " + ex.getMessage());
-        }
+        logger.info("Acceso a Home por usuario autenticado");
+        return ResponseEntity.ok("Welcome to the home page!");
     }
-    // public String userAuthenticated(){
-    //     logger.info("Acceso a Home por usuario autenticado");
-    //     return "Welcome";
-    // }
 
     @GetMapping("/logoutforced")
     public String logoutForced() {
