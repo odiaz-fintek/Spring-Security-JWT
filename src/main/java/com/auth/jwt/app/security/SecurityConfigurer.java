@@ -75,11 +75,14 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/registrarse", "/iniciar", "/public")
                     .permitAll()
+                    .antMatchers("/basic/**").authenticated()
+                .and()
+                 .httpBasic()
                     // Rutas protegidas
                     // .antMatchers("/apikey/**","/jwt/**")
                     // .authenticated()
-                    .anyRequest()
-                    .permitAll()
+//                    .anyRequest()
+//                    .permitAll()
                 .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -91,6 +94,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
     }
-    
+
     
 } // fin de la clase de configuracion
