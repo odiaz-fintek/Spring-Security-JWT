@@ -2,6 +2,7 @@ package com.auth.jwt.app.security;
 
 import com.auth.jwt.app.filter.ApiKeyAuthFilter;
 import com.auth.jwt.app.filter.AuthFiltroToken;
+import com.auth.jwt.app.filter.JWTKeepAliveFilter;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
 import com.auth.jwt.app.security.service.AuthBlock;
 
@@ -32,6 +33,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     private AuthBlock authBlock;
     @Autowired
     private ApiKeyAuthFilter apiKeyAuthFilter;
+
+    @Autowired
+    private JWTKeepAliveFilter jwtKeepAliveFilter;
 
     /* ~ BEANS
     -------------------------------------------------------------- */
@@ -75,11 +79,11 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/registrarse", "/iniciar", "/public")
                     .permitAll()
-                    // Rutas protegidas
-                    // .antMatchers("/apikey/**","/jwt/**")
-                    // .authenticated()
+                    .antMatchers("/basic/**").authenticated()
                     .anyRequest()
                     .permitAll()
+                .and()
+                 .httpBasic()
                 .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -88,9 +92,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .expiredUrl("/logoutforced");
 
         // Indicamos que usaremos un filtro
+        http.addFilterBefore(jwtKeepAliveFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
     }
-    
+
     
 } // fin de la clase de configuracion

@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +21,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Base64;
 
 @RestController
 public class HomeController {
@@ -86,6 +89,10 @@ public class HomeController {
             );
 
             logger.info("User logged in successfully");
+
+            HttpHeaders headers = new HttpHeaders();
+            String authHeader = "Basic " + Base64.getEncoder().encodeToString((autLogin.getUsername() + ":" + autLogin.getPassword()).getBytes());
+            headers.add("Authorization", authHeader);
 
         } catch (BadCredentialsException ex) {
             logger.error("Error logging in: {}", ex.getMessage(), ex);
