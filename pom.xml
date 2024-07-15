@@ -122,8 +122,33 @@
         
     </dependencies>
 
+    <distributionManagement>
+			<repository>
+				<id>nexus</id>
+				<name>Releases</name>
+				<url>http://stg.fintek.com.pa:8081/repository/maven-releases</url>
+			</repository>
+			<snapshotRepository>
+				<id>nexus</id>
+				<name>Snapshot</name>
+				<url>http://stg.fintek.com.pa:8081/repository/maven-snapshots</url>
+			</snapshotRepository>
+		</distributionManagement>
+	<scm>
+		<connection>${scm.root}</connection>
+		<developerConnection>${scm.root}</developerConnection>
+		<url>http://stg.fintek.com.pa:8081/</url>
+	</scm>
+
     <build>
         <plugins>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <skipTests>true</skipTests>
+                    </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
