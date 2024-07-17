@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,8 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.Base64;
 
 
 // falta comentarios 
@@ -92,6 +92,10 @@ public class HomeController {
 
             logger.info("User logged in successfully");
 
+            HttpHeaders headers = new HttpHeaders();
+            String authHeader = "Basic " + Base64.getEncoder().encodeToString((autLogin.getUsername() + ":" + autLogin.getPassword()).getBytes());
+            headers.add("Authorization", authHeader);
+
         } catch (BadCredentialsException ex) {
             logger.error("Error logging in: {}", ex.getMessage(), ex);
             return ResponseEntity.status(401).body("Error en el username o contraseña: " + ex.getMessage());
@@ -115,19 +119,19 @@ public class HomeController {
         // Regresamos el token
         return ResponseEntity.ok(new AutenticacionResponse("Token: " + token +
         "                   Apikey: " + apikey + 
-        "                   Basic: Acceso consedido"));
+        "                   Basic: Acceso concedido"));
     } // fin para iniciar sesion
 
-    @PostMapping("/keep-alive")
-    public ResponseEntity<?> keepAlive(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.setMaxInactiveInterval(300); // Reset to 5 minutes (300 seconds)
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build(); // Handle session not found
-        }
-    }
+    // @PostMapping("/keep-alive")
+    // public ResponseEntity<?> keepAlive(HttpServletRequest request) {
+    //     HttpSession session = request.getSession(false);
+    //     if (session != null) {
+    //         session.setMaxInactiveInterval(300); // Reset to 5 minutes (300 seconds)
+    //         return ResponseEntity.ok().build();
+    //     } else {
+    //         return ResponseEntity.notFound().build(); // Handle session not found
+    //     }
+    // }
 
 
     /* ~ Rutas privadas (requieren token)

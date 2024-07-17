@@ -1,37 +1,22 @@
 package com.auth.jwt.app.security;
 
 import com.auth.jwt.app.filter.ApiKeyAuthFilter;
-
-// package com.auth.jwt.app.security;
 import com.auth.jwt.app.filter.AuthFiltroToken;
-// import com.auth.jwt.app.payload.AutenticacionApiKey;
+import com.auth.jwt.app.filter.JWTKeepAliveFilter;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
 import com.auth.jwt.app.security.service.AuthBlock;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-// import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-// import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-// Cambios 
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import org.springframework.security.web.SecurityFilterChain;
-// import org.springframework.security.web.authentication.AuthenticationFilter;
-// Fin de cambios
-
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.util.Collections;
 
 @EnableWebSecurity
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
@@ -48,6 +33,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     private AuthBlock authBlock;
     @Autowired
     private ApiKeyAuthFilter apiKeyAuthFilter;
+
+    @Autowired
+    private JWTKeepAliveFilter jwtKeepAliveFilter;
 
     /* ~ BEANS
     -------------------------------------------------------------- */
@@ -91,10 +79,11 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/registrarse", "/iniciar", "/public")
                     .permitAll()
-                    // .antMatchers("/apikey","/home")
-                    // .authenticated()
+                    .antMatchers("/basic/**").authenticated()
                     .anyRequest()
                     .permitAll()
+                .and()
+                 .httpBasic()
                 .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -103,9 +92,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .expiredUrl("/logoutforced");
 
         // Indicamos que usaremos un filtro
+        http.addFilterBefore(jwtKeepAliveFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);
     }
-    
+
     
 } // fin de la clase de configuracion

@@ -13,9 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Esta clase representa a la tabla de la BD llamada <b>usuarios</b>
  * en la cual las propiedades definidas aqui seran mapeadas a la tabla.

@@ -1,9 +1,7 @@
 package com.auth.jwt.app.payload;
 
-import com.auth.jwt.app.entity.Role;
 
 import java.io.Serializable;
-import java.util.List;
 
 // Ver si sirve o uso el de usuarios
 public class AutenticacionRegistro implements Serializable {

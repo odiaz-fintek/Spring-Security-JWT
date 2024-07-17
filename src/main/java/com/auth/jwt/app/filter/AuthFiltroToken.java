@@ -3,6 +3,7 @@ package com.auth.jwt.app.filter;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
 import com.auth.jwt.app.security.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,51 +35,52 @@ public class AuthFiltroToken extends OncePerRequestFilter {
     ==================================== */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
 
-       // Extraemos el header Authorization: es donde se encuentra el token enviado por el usuario
-       // Podemos poner esta parte en la clase de utilidad del token
-       final String headerAuth = request.getHeader("Authorization");
+        // Definimos las rutas protegidas por este filtro
+        if (request.getRequestURI().startsWith("/jwt")) {
+            // Extraemos el header Authorization: es donde se encuentra el token enviado por el usuario
+            // Podemos poner esta parte en la clase de utilidad del token
+            final String headerAuth = request.getHeader("Authorization");
 
-        String token = null;
-        String username = null;
-        if (request.getRequestURI().startsWith("/apikey") || request.getRequestURI().startsWith("/home")) {
             // Extraemos el token de la cabecera
-            if(headerAuth != null && headerAuth.startsWith("Bearer ")){
-                // Lo extraemos quitando el "Bearer " para solo tener el token
-                token = headerAuth.substring(7);
-                // Buscamos el username del usuario en el token
-                username = jwtUtil.extraerUsername(token);
+            if (headerAuth == null || !headerAuth.startsWith("Bearer ")) {
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.getWriter().write("Unauthorized: Missing or invalid Authorization header");
+                return;
             }
 
+             // Lo extraemos quitando el "Bearer " para solo tener el token
+            String token = headerAuth.substring(7);
+            // Buscamos el username del usuario en el token
+            String username = jwtUtil.extraerUsername(token);
+
             // Validamos los valores extraidos del token y el contexto de seguridad
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 // obtenemos el nombre del usuario de nuestra BD y poblamos el UserDetails
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                 // Validamos el token si aun esta vigente y si concuerda con el usuario de la BD
                 if (jwtUtil.validarToken(token, userDetails)) {
-
-                    UsernamePasswordAuthenticationToken userPassAuthToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
                     // Generamos los detalles de la autenticacion por token
-                    userPassAuthToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
-                    );
-
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     // y establecemos el tipo de seguridad
-                    SecurityContextHolder.getContext().setAuthentication(userPassAuthToken);
-                } // fin de la validacion del token con los datos de la BD
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    response.getWriter().write("Unauthorized: Invalid JWT token");
+                    return;
+                }
+            } else {
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.getWriter().write("Unauthorized: Invalid JWT token");
+                return;
             }
-
-            filterChain.doFilter(request, response);
-        } else {
-            // Continue processing the request for public routes
-            filterChain.doFilter(request, response);
-        }
-        
-    } // fin del metodo de filtradp
-
+        } // fin de la validacion del token con los datos de la BD
+        // Continue processing the request for public routes
+        filterChain.doFilter(request, response);
+    } // fin del metodo de filtrado
 
 } // fin de la clase
