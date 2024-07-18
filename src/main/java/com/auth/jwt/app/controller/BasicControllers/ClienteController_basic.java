@@ -9,12 +9,14 @@ import com.auth.jwt.app.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/basic/clientes")
+@SecurityRequirement(name = "basicAuth")
 public class ClienteController_basic {
 
     @Autowired

@@ -6,12 +6,15 @@ import com.auth.jwt.app.service.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/jwt/accounts")
+@SecurityRequirement(name = "bearerAuth")
 public class EmpresaController_jwt {
 
     private final EmpresaService empresaService;

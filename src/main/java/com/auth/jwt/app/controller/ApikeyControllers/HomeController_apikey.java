@@ -3,9 +3,11 @@ package com.auth.jwt.app.controller.ApikeyControllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/apikey")
+@SecurityRequirement(name = "apiKeyAuth")
 public class HomeController_apikey {
 
     private static final Logger logger = LoggerFactory.getLogger(HomeController_apikey.class);
