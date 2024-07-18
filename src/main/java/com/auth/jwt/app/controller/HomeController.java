@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Base64;
 
 @RestController
@@ -64,6 +65,8 @@ public class HomeController {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String apikey = encoder.encode(usuario.getUsername() + usuario.getPassword() + SECRETO);
             usuario.setApikey(apikey);
+            usuario.setApikeySesionTime(LocalDateTime.now());
+            usuario.setApikeyActivo(true);
 
             // Asignar role de user
             Role role = roleService.buscarRolePorId(3);
@@ -83,13 +86,23 @@ public class HomeController {
     public ResponseEntity<?> iniciarSesion(@RequestBody AutenticacionLogin autLogin) throws Exception{
         logger.info("Request received to login");
 
+        // Obtenemos los datos del usuario de la BD para construir el token
+        final Usuario usuario = usuarioService.buscarApikeyPorUsuario(autLogin.getUsername());
+        if (usuario == null) {
+            return ResponseEntity.status(404).body("Usuario no encontrado");
+        }
+        // // Verificar si el API key está activo
+        // if (!usuarioService.buscarEstadoApikey(usuario.getApikey())) {
+        //     return ResponseEntity.status(403).body("API key ha expirado o está inactivo");
+        // }
+
         try {
             authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(autLogin.getUsername(), autLogin.getPassword())
             );
 
             logger.info("User logged in successfully");
-
+            
             HttpHeaders headers = new HttpHeaders();
             String authHeader = "Basic " + Base64.getEncoder().encodeToString((autLogin.getUsername() + ":" + autLogin.getPassword()).getBytes());
             headers.add("Authorization", authHeader);
@@ -105,11 +118,6 @@ public class HomeController {
             return ResponseEntity.status(500).body("Error en el usuario o contraseña: " + ex.getMessage());
         }// fin de try~catch
 
-        // Obtenemos los datos del usuario de la BD para construir el token
-        final Usuario usuario = usuarioService.buscarApikeyPorUsuario(autLogin.getUsername());
-            if (usuario == null) {
-                return ResponseEntity.status(404).body("Usuario no encontrado");
-        }
         final String apikey = usuario.getApikey();
         final UserDetails userDetails = miUserDetailsService.loadUserByUsername(autLogin.getUsername());
         final String token = jwtUtil.creatToken(userDetails);

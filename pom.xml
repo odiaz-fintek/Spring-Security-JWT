@@ -122,7 +122,7 @@
         
     </dependencies>
 
-    <distributionManagement>
+    <!-- <distributionManagement>
 			<repository>
 				<id>nexus</id>
 				<name>Releases</name>
@@ -138,7 +138,7 @@
 		<connection>${scm.root}</connection>
 		<developerConnection>${scm.root}</developerConnection>
 		<url>http://stg.fintek.com.pa:8081/</url>
-	</scm>
+	</scm> -->
 
     <build>
         <plugins>

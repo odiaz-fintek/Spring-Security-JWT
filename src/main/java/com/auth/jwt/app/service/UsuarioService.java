@@ -120,11 +120,11 @@ public class UsuarioService implements IUsuarioService {
     @Override @Transactional(readOnly = true)
     public Boolean buscarApikeyPorApikey(String apikey) {
         return usuarioRepository.buscarApikeyPorApikey(apikey);
-        // if (usuarioRepository.buscarApikeyPorApikey(api_key)) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
+    }
+
+    @Override @Transactional(readOnly = true)
+    public Boolean buscarEstadoApikey(String apikey) {
+        return usuarioRepository.buscarApikeyActivoPorApikey(apikey);
     }
 
 } // fin de la implementacion de los servicios

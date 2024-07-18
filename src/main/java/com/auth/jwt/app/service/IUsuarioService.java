@@ -2,6 +2,7 @@ package com.auth.jwt.app.service;
 
 import com.auth.jwt.app.entity.Usuario;
 
+// import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -60,4 +61,8 @@ public interface IUsuarioService {
     Usuario buscarApikeyPorUsuario(String username);
 
     Boolean buscarApikeyPorApikey(String apikey);
+
+    Boolean buscarEstadoApikey(String apikey);
+
+    // Usuario activarTiempoApikey(LocalDateTime tokenExpirationDate);
 } // fin de la interface de servicio
