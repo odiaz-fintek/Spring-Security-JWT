@@ -38,6 +38,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("SELECT COUNT(u) > 0 FROM Usuario u WHERE u.apikey = ?1")
     boolean buscarApikeyPorApikey(String apikey);
 
+    @Query("SELECT u FROM Usuario u WHERE u.apikey = ?1")
+    Optional<Usuario> findByApikey(String apikey);
+
     @Query("SELECT u.apikeyActivo FROM Usuario u WHERE u.apikey = ?1")
     boolean buscarApikeyActivoPorApikey(String apikey);
 

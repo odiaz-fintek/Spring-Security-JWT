@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 /**
  * Clase que implementa los metodos de la interfaz {@link IUsuarioService} del servicio para
  * usuarios.
@@ -126,5 +128,24 @@ public class UsuarioService implements IUsuarioService {
     public Boolean buscarEstadoApikey(String apikey) {
         return usuarioRepository.buscarApikeyActivoPorApikey(apikey);
     }
+
+    public boolean hasApikeyExpired(String apikey) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByApikey(apikey);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            return usuario.getApikeySesionTime().plusMinutes(5).isBefore(LocalDateTime.now());
+        }
+        return true; // Si el usuario no se encuentra, tratamos el API key como expirado
+    }
+
+    public void actualizarApikeySesionTime(String apikey) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByApikey(apikey);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            usuario.setApikeySesionTime(LocalDateTime.now());
+            usuarioRepository.save(usuario);
+        }
+    }
+
 
 } // fin de la implementacion de los servicios
