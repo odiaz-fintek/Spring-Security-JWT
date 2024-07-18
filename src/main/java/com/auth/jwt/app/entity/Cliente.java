@@ -309,6 +309,6 @@ public class Cliente implements Serializable {
             joinColumns = {@JoinColumn(name = "clienteid")},
             inverseJoinColumns = {@JoinColumn(name = "accountid")}
     )
-    private Set<Account> accounts =new HashSet<>();
+    private Set<Empresa> empresas =new HashSet<>();
 
 }

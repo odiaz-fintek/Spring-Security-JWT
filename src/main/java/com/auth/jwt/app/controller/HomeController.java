@@ -4,6 +4,7 @@ import com.auth.jwt.app.entity.Role;
 import com.auth.jwt.app.entity.Usuario;
 import com.auth.jwt.app.payload.AutenticacionLogin;
 import com.auth.jwt.app.payload.AutenticacionResponse;
+import com.auth.jwt.app.payload.DTOUsuario;
 import com.auth.jwt.app.security.service.MiUserDetailsService;
 import com.auth.jwt.app.security.utils.JwtUtil;
 import com.auth.jwt.app.service.IRoleService;
@@ -56,20 +57,24 @@ public class HomeController {
     } // fin de la peticion
 
     @PostMapping("/registrarse")
-    public ResponseEntity<?> registrarse(@RequestBody Usuario usuario){
+    public ResponseEntity<?> registrarse(@RequestBody DTOUsuario usuarioDTO){
         logger.info("Request received to register a new user");
+        Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setUsername(usuarioDTO.getUsername());
+        nuevoUsuario.setCorreo(usuarioDTO.getCorreo());
+        nuevoUsuario.setPassword(usuarioDTO.getPassword());
         try {
-            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+            nuevoUsuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
             // Generar apikey
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            String apikey = encoder.encode(usuario.getUsername() + usuario.getPassword() + SECRETO);
-            usuario.setApikey(apikey);
+            String apikey = encoder.encode(usuarioDTO.getUsername() + usuarioDTO.getPassword() + SECRETO);
+            nuevoUsuario.setApikey(apikey);
 
             // Asignar role de user
             Role role = roleService.buscarRolePorId(3);
-            usuario.agregarRoleALista(role);
-            usuario.setActivo(true);
-            usuarioService.guardarUsuario(usuario);
+            nuevoUsuario.agregarRoleALista(role);
+            nuevoUsuario.setActivo(true);
+            usuarioService.guardarUsuario(nuevoUsuario);
             logger.info("User registered successfully");
             // return ResponseEntity.ok(new AutenticacionResponse("apikey: " + apikey));
             return ResponseEntity.ok("Usuario registrado exitosamente");

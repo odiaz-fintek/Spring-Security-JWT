@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "account")
-public class Account {
+public class Empresa {
 
     @Id
     @Column(length = 12, nullable = false)
