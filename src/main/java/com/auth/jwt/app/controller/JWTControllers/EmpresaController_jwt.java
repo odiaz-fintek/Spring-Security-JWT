@@ -40,6 +40,7 @@ public class EmpresaController_jwt {
         nuevaEmpresa.setAccount(crearEmpresaDTO.getAccount());
         nuevaEmpresa.setMainPhone(crearEmpresaDTO.getMainPhone());
         nuevaEmpresa.setEmail(crearEmpresaDTO.getEmail());
+        nuevaEmpresa.setSecCodeId(crearEmpresaDTO.getSecCodeId());
 
         Empresa empresaCreado = empresaService.save(nuevaEmpresa);
         return ResponseEntity.ok("Empresa creado correctamente");

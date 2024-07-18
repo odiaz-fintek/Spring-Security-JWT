@@ -12,5 +12,6 @@ public class DTOEmpresa {
     private String account;
     private String mainPhone;
     private String email;
+    private String secCodeId;
 
 }
