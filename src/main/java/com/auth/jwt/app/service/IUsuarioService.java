@@ -66,5 +66,7 @@ public interface IUsuarioService {
 
     void actualizarApikeySesionTime(String apikey);
 
+    boolean hasApikeyExpired(String apikey);
+
     // Usuario activarTiempoApikey(LocalDateTime tokenExpirationDate);
 } // fin de la interface de servicio

@@ -129,6 +129,7 @@ public class UsuarioService implements IUsuarioService {
         return usuarioRepository.buscarApikeyActivoPorApikey(apikey);
     }
 
+    @Override
     public boolean hasApikeyExpired(String apikey) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByApikey(apikey);
         if (usuarioOpt.isPresent()) {
@@ -138,6 +139,7 @@ public class UsuarioService implements IUsuarioService {
         return true; // Si el usuario no se encuentra, tratamos el API key como expirado
     }
 
+    @Override
     public void actualizarApikeySesionTime(String apikey) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByApikey(apikey);
         if (usuarioOpt.isPresent()) {
