@@ -27,4 +27,4 @@ Content-Type: application/json
 
 ### /home
 GET http://localhost:8081/home
-Authorization: Bearer {{auth_token}}
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb3NlMyIsImV4cCI6MTcyMTMyOTI0NCwiaWF0IjoxNzIxMzI4OTQ0fQ.XgCXG09HMFfiCXes7RYkZxaV9K3bJQ3tsWzdYI_8J49ZVqCnFQEpN_IEqt5YwWnQK8c0PINJeEQG4bVYGgwEQQ

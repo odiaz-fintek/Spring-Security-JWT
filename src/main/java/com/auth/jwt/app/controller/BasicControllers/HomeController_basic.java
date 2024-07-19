@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 
 import com.auth.jwt.app.payload.AutenticacionLogin;
 
 @RestController
 @RequestMapping("/basic")
+@SecurityRequirement(name = "basicAuth")
 public class HomeController_basic {
 
     private static final Logger logger = LoggerFactory.getLogger(HomeController_basic.class);
