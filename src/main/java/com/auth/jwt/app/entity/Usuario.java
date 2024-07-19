@@ -62,6 +62,12 @@ public class Usuario implements Serializable {
     @NotNull @Getter @Setter
     private String apikey;
 
+    @Getter @Setter
+    private LocalDateTime ApikeySesionTime;
+
+    @Getter @Setter
+    private boolean apikeyActivo;
+
     /*----------References de usuarios y rol -----------------*/
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(

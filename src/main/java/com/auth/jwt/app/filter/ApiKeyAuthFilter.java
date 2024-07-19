@@ -24,12 +24,16 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-
+    throws ServletException, IOException {
         // Get the API key and secret from request headers
         String requestApiKey = request.getHeader("X-API-KEY");
         if (request.getRequestURI().startsWith("/apikey")) {
-                if (requestApiKey != null && usuarioService.buscarApikeyPorApikey(requestApiKey)) {
+            if (requestApiKey != null && 
+            usuarioService.buscarApikeyPorApikey(requestApiKey) && 
+            usuarioService.buscarEstadoApikey(requestApiKey) && 
+            !usuarioService.hasApikeyExpired(requestApiKey)) {
+                // Actualizar ApikeySesionTime
+                usuarioService.actualizarApikeySesionTime(requestApiKey);
                 // Continue processing the request
                 filterChain.doFilter(request, response);
             } else {

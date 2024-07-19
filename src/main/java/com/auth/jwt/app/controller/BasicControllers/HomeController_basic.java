@@ -25,7 +25,7 @@ public class HomeController_basic {
     private AuthenticationManager authManager;
 
     @GetMapping("/home")
-    public ResponseEntity<?> userAuthenticated(@RequestBody AutenticacionLogin autLogin) {
+    public ResponseEntity<?> userAuthenticated() {
         logger.info("Acceso a Home por usuario autenticado");
         return ResponseEntity.ok("Welcome to the home page!");
     }
