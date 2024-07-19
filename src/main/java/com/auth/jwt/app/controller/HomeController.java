@@ -102,6 +102,9 @@ public class HomeController {
             );
 
             logger.info("User logged in successfully");
+
+            // Actualizar ApikeySesionTime que es el tiempo para mantener la sesion activa
+            usuarioService.actualizarApikeySesionTime(usuario.getApikey());
             
             HttpHeaders headers = new HttpHeaders();
             String authHeader = "Basic " + Base64.getEncoder().encodeToString((autLogin.getUsername() + ":" + autLogin.getPassword()).getBytes());
