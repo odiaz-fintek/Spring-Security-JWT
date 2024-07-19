@@ -3,6 +3,7 @@ package com.auth.jwt.app.controller.ApikeyControllers;
 import com.auth.jwt.app.entity.Empresa;
 import com.auth.jwt.app.payload.DTOEmpresa;
 import com.auth.jwt.app.service.EmpresaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Tag(name = "ApiKey", description = "Controller with APIKEY Authentication")
 @RequestMapping("/apikey/accounts")
 @SecurityRequirement(name = "apiKeyAuth")
 public class EmpresaController_apikey {
