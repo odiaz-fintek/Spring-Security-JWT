@@ -3,16 +3,17 @@ package com.auth.jwt.app.controller.BasicControllers;
 import com.auth.jwt.app.entity.Empresa;
 import com.auth.jwt.app.payload.DTOEmpresa;
 import com.auth.jwt.app.service.EmpresaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
-
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Tag(name = "Basic", description = "Controller with Basic Authentication")
 @RequestMapping("/basic/accounts")
 @SecurityRequirement(name = "basicAuth")
 public class EmpresaController_basic {

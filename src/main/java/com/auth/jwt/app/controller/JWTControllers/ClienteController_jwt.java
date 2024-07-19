@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
+@Tag(name = "JWT", description = "Controller with JWT Authentication")
 @RequestMapping("/jwt/clientes")
 @SecurityRequirement(name = "bearerAuth")
 public class ClienteController_jwt {

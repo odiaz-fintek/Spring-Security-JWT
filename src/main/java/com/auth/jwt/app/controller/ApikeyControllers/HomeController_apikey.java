@@ -1,11 +1,13 @@
 package com.auth.jwt.app.controller.ApikeyControllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
+@Tag(name = "ApiKey", description = "Controller with APIKEY Authentication")
 @RequestMapping("/apikey")
 @SecurityRequirement(name = "apiKeyAuth")
 public class HomeController_apikey {

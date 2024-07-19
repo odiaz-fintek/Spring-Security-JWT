@@ -6,6 +6,7 @@ import com.auth.jwt.app.payload.DTODeleteCliente;
 import com.auth.jwt.app.payload.DTOUpdateClient;
 import com.auth.jwt.app.payload.ErrorResponse;
 import com.auth.jwt.app.service.ClienteService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@Tag(name = "ApiKey", description = "Controller with APIKEY Authentication")
 @RequestMapping("/apikey/clientes")
 @SecurityRequirement(name = "apiKeyAuth")
 public class ClienteController_apikey {

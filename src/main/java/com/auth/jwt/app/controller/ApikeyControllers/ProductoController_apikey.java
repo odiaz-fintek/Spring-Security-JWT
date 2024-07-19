@@ -5,6 +5,7 @@ import com.auth.jwt.app.entity.Usuario;
 import com.auth.jwt.app.repository.ProductoRepository;
 import com.auth.jwt.app.service.IProductoService;
 import com.auth.jwt.app.service.IUsuarioService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 
 @RestController
+@Tag(name = "ApiKey", description = "Controller with APIKEY Authentication")
 @RequestMapping("/apikey/productos")
 @SecurityRequirement(name = "apiKeyAuth")
 public class ProductoController_apikey {

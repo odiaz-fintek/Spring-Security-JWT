@@ -6,15 +6,18 @@ import com.auth.jwt.app.payload.DTODeleteCliente;
 import com.auth.jwt.app.payload.DTOUpdateClient;
 import com.auth.jwt.app.payload.ErrorResponse;
 import com.auth.jwt.app.service.ClienteService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
+@Tag(name = "Basic", description = "Controller with Basic Authentication")
 @RequestMapping("/basic/clientes")
 @SecurityRequirement(name = "basicAuth")
 public class ClienteController_basic {
