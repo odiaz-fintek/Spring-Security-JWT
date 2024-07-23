@@ -16,6 +16,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * This class represents the controller for managing clients with APIKEY authentication.
+ * It handles the creation, update, deletion, and retrieval of client information.
+ */
 @RestController
 @Tag(name = "ApiKey", description = "Controller with APIKEY Authentication")
 @RequestMapping("/apikey/clientes")
@@ -25,6 +29,12 @@ public class ClienteController_apikey {
     @Autowired
     private ClienteService clienteService;
 
+    /**
+     * Creates a new client with the provided client data.
+     *
+     * @param crearClienteDTO The DTO object containing the client data.
+     * @return A ResponseEntity with a success message if the client is created successfully.
+     */
     @PostMapping("/crear")
     public ResponseEntity<String> crearCliente(@RequestBody DTOCrearCliente crearClienteDTO) {
         Cliente nuevoCliente = new Cliente();
@@ -47,6 +57,13 @@ public class ClienteController_apikey {
         return ResponseEntity.ok("Cliente creado correctamente");
     }
 
+    /**
+        * Updates a client with the given ID.
+        *
+        * @param id The ID of the client to update.
+        * @param updateClientDTO The DTO containing the updated client information.
+        * @return A ResponseEntity with a success message if the client was updated successfully, or a message indicating that the client was not found.
+        */
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<String> actualizarCliente(@PathVariable Long id, @RequestBody DTOUpdateClient updateClientDTO) {
         Cliente clienteExistente = clienteService.findbyIdClient(id);
@@ -69,6 +86,12 @@ public class ClienteController_apikey {
         return ResponseEntity.ok("Cliente Actualizado");
     }
 
+    /**
+     * Deletes a client based on the provided DTODeleteCliente object.
+     * 
+     * @param deleteClienteDTO The DTODeleteCliente object containing the client ID to be deleted.
+     * @return A ResponseEntity<String> indicating the result of the deletion operation.
+     */
     @PostMapping("/eliminar")
     public ResponseEntity<String> eliminarCliente(@RequestBody DTODeleteCliente deleteClienteDTO) {
         Cliente clienteExistente = clienteService.findbyIdClient(deleteClienteDTO.getClienteid());
@@ -81,6 +104,12 @@ public class ClienteController_apikey {
         return ResponseEntity.ok("Cliente eliminado");
     }
 
+    /**
+     * Retrieves a Cliente object by its ID.
+     *
+     * @param id The ID of the Cliente object to retrieve.
+     * @return ResponseEntity containing the Cliente object if found, or an ErrorResponse object if not found.
+     */
     @GetMapping("/findby-Id/{id}")
     public ResponseEntity<?> findByIdClient(@PathVariable Long id) {
         Cliente cliente = clienteService.findbyIdClient(id);
@@ -91,6 +120,12 @@ public class ClienteController_apikey {
         return ResponseEntity.ok(cliente);
     }
 
+    /**
+     * Retrieves a list of clients by their name.
+     *
+     * @param nombre The name of the clients to search for.
+     * @return A ResponseEntity containing a list of Cliente objects matching the given name.
+     */
     @GetMapping("/findby-nombre/{nombre}")
     public ResponseEntity<List<Cliente>> findByNameClient(@PathVariable String nombre) {
         List<Cliente> clientes = clienteService.findbyNameClient(nombre);

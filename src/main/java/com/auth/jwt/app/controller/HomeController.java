@@ -57,6 +57,12 @@ public class HomeController {
         return "Pagina de inicio al publico";
     } // fin de la peticion
 
+    /**
+     * Registers a new user with the provided user data.
+     *
+     * @param usuarioDTO The DTO object containing the user data.
+     * @return A ResponseEntity with the result of the registration process.
+     */
     @PostMapping("/registrarse")
     public ResponseEntity<?> registrarse(@RequestBody DTOUsuario usuarioDTO){
         logger.info("Request received to register a new user");
@@ -68,7 +74,6 @@ public class HomeController {
             nuevoUsuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
             // Generar apikey
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            // String apikey = encoder.encode(usuario.getUsername() + usuario.getPassword() + SECRETO);
             String apikey = encoder.encode(usuarioDTO.getUsername() + usuarioDTO.getPassword() + SECRETO);
             nuevoUsuario.setApikey(apikey);
             nuevoUsuario.setApikeySesionTime(LocalDateTime.now());
@@ -80,7 +85,6 @@ public class HomeController {
             nuevoUsuario.setActivo(true);
             usuarioService.guardarUsuario(nuevoUsuario);
             logger.info("User registered successfully");
-            // return ResponseEntity.ok(new AutenticacionResponse("apikey: " + apikey));
             return ResponseEntity.ok("Usuario registrado exitosamente");
         } catch (Exception e) {
             logger.error("Error registering user: {}", e.getMessage(), e);
@@ -88,6 +92,13 @@ public class HomeController {
         }
     }
 
+    /**
+     * Authenticates a user and generates a token for session management.
+     *
+     * @param autLogin The authentication login details.
+     * @return A ResponseEntity containing the token and other authentication information.
+     * @throws Exception If an error occurs during the authentication process.
+     */
     @PostMapping("/iniciar")
     public ResponseEntity<?> iniciarSesion(@RequestBody AutenticacionLogin autLogin) throws Exception{
         logger.info("Request received to login");
@@ -97,10 +108,6 @@ public class HomeController {
         if (usuario == null) {
             return ResponseEntity.status(404).body("Usuario no encontrado");
         }
-        // // Verificar si el API key está activo
-        // if (!usuarioService.buscarEstadoApikey(usuario.getApikey())) {
-        //     return ResponseEntity.status(403).body("API key ha expirado o está inactivo");
-        // }
 
         try {
             authManager.authenticate(
@@ -136,17 +143,6 @@ public class HomeController {
         "                   Apikey: " + apikey + 
         "                   Basic: Acceso concedido"));
     } // fin para iniciar sesion
-
-    // @PostMapping("/keep-alive")
-    // public ResponseEntity<?> keepAlive(HttpServletRequest request) {
-    //     HttpSession session = request.getSession(false);
-    //     if (session != null) {
-    //         session.setMaxInactiveInterval(300); // Reset to 5 minutes (300 seconds)
-    //         return ResponseEntity.ok().build();
-    //     } else {
-    //         return ResponseEntity.notFound().build(); // Handle session not found
-    //     }
-    // }
 
 
     /* ~ Rutas privadas (requieren token)

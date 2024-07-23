@@ -1,5 +1,11 @@
 version: '3.8'
 
+# This Docker Compose file is used to define and configure the services required for running a Spring Security JWT application.
+# It consists of two services:
+
+# 1. db: This service uses the MySQL 8.4 image and sets up a MySQL database container named 'mysql-db'.
+#    It defines environment variables for the root password, database name, and disallows empty passwords.
+#    It maps port 6033 on the host to port 3306 in the container and creates a volume for persistent data storage.
 services:
   db:
     image: mysql:8.4
@@ -13,6 +19,10 @@ services:
     volumes:
       - db-data:/var/lib/mysql
 
+# 2. app: This service builds the application using the Dockerfile in the current directory ('.').
+#    It creates a container named 'spring-app' and sets environment variables for the database URL, username, password,
+#    token API key, token secret word, and server port.
+#    It maps port 8081 on the host to port 8081 in the container and depends on the 'db' service.
   app:
     build: .
     container_name: spring-app
@@ -28,5 +38,7 @@ services:
     depends_on:
       - db
 
+# Volumes:
+# - db-data: This volume is used by the 'db' service to store the MySQL database data persistently.
 volumes:
   db-data:

@@ -8,6 +8,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents a Cliente entity.
+ * This class is used to store information about a client.
+ */
 @Builder
 @Entity
 @Table (name = "clientes")

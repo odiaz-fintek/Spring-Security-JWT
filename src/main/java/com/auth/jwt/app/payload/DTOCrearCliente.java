@@ -5,11 +5,10 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.UUID;
 
-/*
-* Este DTO se utilizará para capturar la información necesaria
-* para crear un nuevo cliente.
-* */
-
+/**
+ * This class represents a data transfer object (DTO) for creating a client.
+ * It contains the client's personal information such as name, birthday, contact details, and nationality.
+ */
 @Getter @Setter
 public class DTOCrearCliente {
     private String firstname;

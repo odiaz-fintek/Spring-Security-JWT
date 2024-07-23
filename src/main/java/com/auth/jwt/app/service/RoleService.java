@@ -20,11 +20,22 @@ public class RoleService implements IRoleService{
     @Autowired
     private RoleRepository roleRepository;
 
+    /**
+     * Obtiene todos los roles.
+     * 
+     * @return una lista de todos los roles
+     */
     @Override
     public List<Role> obtenerTodosRoles() {
         return (List<Role>) roleRepository.findAll();
     }
 
+    /**
+     * Busca un rol por su ID.
+     * 
+     * @param idRole el ID del rol a buscar
+     * @return el rol encontrado o null si no se encuentra
+     */
     @Override
     public Role buscarRolePorId(Integer idRole) {
         return roleRepository.findById(idRole).orElse(null);

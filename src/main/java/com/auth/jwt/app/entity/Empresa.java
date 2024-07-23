@@ -8,6 +8,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * Represents an entity for Empresa (Account) in the application.
+ * This class maps to the "account" table in the database.
+ */
 @Entity
 @Builder
 @AllArgsConstructor

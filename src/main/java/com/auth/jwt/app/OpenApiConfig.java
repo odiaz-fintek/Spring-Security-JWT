@@ -12,6 +12,11 @@ import io.swagger.v3.oas.models.tags.Tag;
 @Configuration
 public class OpenApiConfig {
 
+/**
+ * Creates a custom OpenAPI configuration.
+ *
+ * @return The custom OpenAPI configuration.
+ */
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()

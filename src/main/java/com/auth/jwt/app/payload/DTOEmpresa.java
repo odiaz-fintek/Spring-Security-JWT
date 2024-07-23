@@ -4,6 +4,10 @@ package com.auth.jwt.app.payload;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * This class represents a Data Transfer Object (DTO) for an Empresa (Company).
+ * It contains the properties related to an Empresa entity.
+ */
 @Getter @Setter
 public class DTOEmpresa {
 

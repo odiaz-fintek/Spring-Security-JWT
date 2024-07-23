@@ -12,6 +12,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class represents the controller for managing Empresa accounts with APIKEY authentication.
+ * It provides endpoints for retrieving, creating, updating, and deleting Empresa accounts.
+ */
 @RestController
 @Tag(name = "ApiKey", description = "Controller with APIKEY Authentication")
 @RequestMapping("/apikey/accounts")
@@ -36,6 +40,12 @@ public class EmpresaController_apikey {
         return account.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Creates a new Empresa (company) based on the provided DTOEmpresa object.
+     *
+     * @param crearEmpresaDTO The DTOEmpresa object containing the details of the Empresa to be created.
+     * @return A ResponseEntity with a success message if the Empresa is created successfully.
+     */
     @PostMapping("/createacc")
     public ResponseEntity<String> crearEmpresa(@RequestBody DTOEmpresa crearEmpresaDTO) {
         Empresa nuevaEmpresa = new Empresa();
@@ -49,6 +59,13 @@ public class EmpresaController_apikey {
         return ResponseEntity.ok("Empresa creado correctamente");
     }
 
+    /**
+     * Updates an account with the specified accountId using the provided updateEmpresaDTO.
+     *
+     * @param accountId        The ID of the account to be updated.
+     * @param updateEmpresaDTO The DTO containing the updated account details.
+     * @return A ResponseEntity containing the updated Empresa object if the account exists, or a ResponseEntity with status 404 if the account does not exist.
+     */
     @PutMapping("/{accountId}")
     public ResponseEntity<Empresa> updateAccount(@PathVariable String accountId, @RequestBody DTOEmpresa updateEmpresaDTO) {
         Optional<Empresa> accountOptional = empresaService.findById(accountId);

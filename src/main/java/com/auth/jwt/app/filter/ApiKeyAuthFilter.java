@@ -22,6 +22,15 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     private UsuarioService usuarioService;
     
     
+    /**
+     * Filters the incoming request based on the API key authentication.
+     * 
+     * @param request the incoming HTTP request
+     * @param response the HTTP response
+     * @param filterChain the filter chain for processing the request
+     * @throws ServletException if there is a servlet error
+     * @throws IOException if there is an I/O error
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
     throws ServletException, IOException {

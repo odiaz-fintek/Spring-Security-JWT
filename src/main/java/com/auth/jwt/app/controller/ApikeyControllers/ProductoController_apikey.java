@@ -13,6 +13,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.util.List;
 
+/**
+ * This class represents the controller for managing products with APIKEY authentication.
+ * It handles CRUD operations for products.
+ */
 @RestController
 @Tag(name = "ApiKey", description = "Controller with APIKEY Authentication")
 @RequestMapping("/apikey/productos")
@@ -43,6 +47,13 @@ public class ProductoController_apikey {
         return productoRepository.save(producto);
     }
 
+    /**
+        * Updates a product with the given ID.
+        *
+        * @param id The ID of the product to update.
+        * @param productoDetalles The updated details of the product.
+        * @return ResponseEntity containing the updated product if successful, or an error response if the product is not found or the user is not found.
+        */
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateProducto(@PathVariable Long id, @RequestBody Producto productoDetalles) {
         // Buscar el producto existente

@@ -1,6 +1,5 @@
 package com.auth.jwt.app.security.service;
 
-
 import com.auth.jwt.app.entity.Usuario;
 import com.auth.jwt.app.service.UsuarioService;
 
@@ -16,10 +15,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 
-
+/**
+ * This class implements the AuthenticationProvider interface and provides the authentication logic for the application.
+ */
 @Component
-public class AuthBlock implements AuthenticationProvider
-{
+public class AuthBlock implements AuthenticationProvider {
 
    @Autowired
    private UsuarioService usuarioService;
@@ -27,9 +27,15 @@ public class AuthBlock implements AuthenticationProvider
    @Autowired
    private UserDetailsService userDetailsService;
 
-
    private static final int MAX_FAILED_ATTEMPTS = UsuarioService.MAX_FAILED_ATTEMPTS;
 
+   /**
+    * Authenticates the user based on the provided authentication object.
+    *
+    * @param authentication The authentication object containing the user's credentials.
+    * @return An Authentication object representing the authenticated user.
+    * @throws AuthenticationException If the authentication fails.
+    */
    @Override
    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
        String username = authentication.getName();
@@ -70,6 +76,12 @@ public class AuthBlock implements AuthenticationProvider
        }
    }
 
+   /**
+    * Checks if the authentication object is supported by this provider.
+    *
+    * @param authentication The authentication object to check.
+    * @return true if the authentication object is supported, false otherwise.
+    */
    @Override
    public boolean supports(Class<?> authentication) {
        return authentication.equals(UsernamePasswordAuthenticationToken.class);
