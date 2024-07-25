@@ -1,32 +1,18 @@
 version: '3.8'
 
 services:
-#  db:
-#    image: mysql:8.4
-#    container_name: mysql-db
-#    environment:
-#      MYSQL_ROOT_PASSWORD: password
-#      MYSQL_DATABASE: jpa_db
-#      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
-#    ports:
-#      - "6033:3306"
-#    volumes:
-#      - db-data:/var/lib/mysql
 
   app:
-    build: .
-    container_name: spring-app
+    image: aurora-app:test-dbh2-v1
+    container_name: aurora-app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/jpa_db
-      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:jpa_db
+      SPRING_DATASOURCE_USERNAME: sa
       SPRING_DATASOURCE_PASSWORD: password
       TOKEN_API_KEY: sprgboot
       TOKEN_PALABRA_SECRETA: github
       SERVER_PORT: 8081
     ports:
       - "8081:8081"
-#    depends_on:
-#      - db
-
-#volumes:
-#  db-data:
+    volumes:
+      - /ruta/local/a/data:/data
