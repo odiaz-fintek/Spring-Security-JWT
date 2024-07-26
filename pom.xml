@@ -10,7 +10,7 @@
     </parent>
     <groupId>pa.com.pagayaa</groupId>
     <artifactId>pa.com.pagayaa.security.app</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>PagaYaa : - ${project.version} - PayaYaa Security</name>
     <description>PayaYaa Proyecto de Login</description>
     <packaging>jar</packaging>
@@ -129,7 +129,7 @@
         
     </dependencies>
 
-    <!-- <distributionManagement>
+    <distributionManagement>
 			<repository>
 				<id>nexus</id>
 				<name>Releases</name>
@@ -145,7 +145,7 @@
 		<connection>${scm.root}</connection>
 		<developerConnection>${scm.root}</developerConnection>
 		<url>http://stg.fintek.com.pa:8081/</url>
-	</scm> -->
+	</scm>
 
     <build>
         <plugins>
