@@ -10,13 +10,14 @@
     </parent>
     <groupId>pa.com.pagayaa</groupId>
     <artifactId>pa.com.pagayaa.security.app</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.1.1-SNAPSHOT</version>
     <name>PagaYaa : - ${project.version} - PayaYaa Security</name>
     <description>PayaYaa Proyecto de Login</description>
     <packaging>jar</packaging>
 
     <properties>
         <java.version>11</java.version>
+		<scm.root>http://stg.fintek.com.pa:8081/</scm.root>
     </properties>
 
     <dependencies>
